@@ -1,0 +1,16 @@
+season,signal,peak_value,Rt_at_burnin,pinn_onset,chp_onset,lead_days,best_Rt,fail_reason
+2014/15 winter,AandB_proportion,0.386,1.343,,2014-12-24,,1.66,R(t) never sustained above 1
+2014/15 winter,Adm_12_17,0.415,1.389,2015-01-12,2014-12-24,-19.0,3.604,
+2014/15 winter,Adm_0_5,2.783,0.481,,2014-12-24,,0.502,R(t) never sustained above 1
+2018/19 winter,AandB_proportion,0.2995,1.494,,2018-12-05,,1.579,R(t) never sustained above 1
+2018/19 winter,Adm_12_17,1.136,0.466,2018-12-21,2018-12-05,-16.0,3.538,
+2018/19 winter,Adm_0_5,11.656,0.797,,2018-12-05,,0.797,R(t) never sustained above 1
+2023 summer,AandB_proportion,0.182,1.796,2023-08-12,2023-03-22,-143.0,2.064,
+2023 summer,Adm_12_17,1.559,0.472,2023-09-07,2023-03-22,-169.0,1.687,
+2023 summer,Adm_0_5,6.421,0.475,,2023-03-22,,0.752,R(t) never sustained above 1
+2023/24 winter,AandB_proportion,0.1494,1.16,,2023-07-19,,1.253,R(t) never sustained above 1
+2023/24 winter,Adm_12_17,1.559,0.48,,2023-07-19,,0.497,R(t) never sustained above 1
+2023/24 winter,Adm_0_5,5.628,0.459,,2023-07-19,,0.486,R(t) never sustained above 1
+2024/25 winter,AandB_proportion,0.1054,0.895,2024-09-22,2025-01-01,101.0,2.099,
+2024/25 winter,Adm_12_17,0.385,0.537,2024-10-28,2025-01-01,65.0,3.526,
+2024/25 winter,Adm_0_5,3.259,0.476,2025-01-03,2025-01-01,-2.0,1.817,

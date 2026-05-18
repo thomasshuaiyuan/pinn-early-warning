@@ -1,0 +1,9 @@
+season_name,obs_col,n_weeks,peak_positivity,pinn_onset_date,chp_onset_date,lead_days,best_Rt,Rt_at_burnin,sigma,gamma,incubation_days,infectious_days,obs_scale,final_loss,earliest_subtype
+2014/15 winter,AandB_proportion,35,38.6,,2014-12-24,,1.66,1.343,0.3583,0.1,2.8,10.0,1.6895,0.00015,
+2015/16 winter,AandB_proportion,35,25.71,2016-01-13,2016-01-13,0.0,1.752,1.141,0.2254,0.1,4.4,10.0,1.3861,4.7e-05,
+2018/19 winter,AandB_proportion,37,29.95,,2018-12-05,,1.579,1.494,0.2643,0.1,3.8,10.0,2.3624,0.000221,
+2023 summer,AandB_proportion,37,18.2,2023-08-12,2023-03-22,-143.0,2.064,1.796,0.3177,0.1,3.1,10.0,1.3341,4.5e-05,
+2023/24 winter,AandB_proportion,37,14.94,,2023-07-19,,1.253,1.16,0.3021,0.1,3.3,10.0,6.9855,6.8e-05,
+2024/25 winter,AandB_proportion,34,10.54,2024-09-22,2025-01-01,101.0,2.099,0.895,0.2187,0.1,4.6,10.0,2.3972,3.3e-05,
+2016/17 (subtype),subtype-stratified,37,15.58,2016-12-25,2016-09-21,-95.0,,,,0.1,,10.0,,,H1N1
+2017/18 (subtype),subtype-stratified,52,40.59,2017-10-19,2017-04-05,-197.0,,,,0.1,,10.0,,,B
