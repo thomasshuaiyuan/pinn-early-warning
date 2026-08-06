@@ -1,0 +1,32 @@
+variable,description,unit,source,coverage_pct,notes
+Year,Epidemiological year,integer,CHP Flu Express,100,
+Week,Epidemiological week number,integer (1-53),CHP Flu Express,100,
+From,Start date of epidemiological week,date (DD/MM/YYYY),CHP Flu Express,100,
+To,End date of epidemiological week,date (DD/MM/YYYY),CHP Flu Express,100,
+ILI_FMC,"ILI consultation rate from General Outpatient Clinics / Family Medicine Clinics (public sector)",rate per 1000 consultations,CHP sentinel surveillance,~95,"Missing in early 2014"
+ILI_PMP,"ILI consultation rate from private medical practitioners (sentinel GPs)",rate per 1000 consultations,CHP sentinel surveillance,100,
+H1,"Number of specimens positive for influenza A(H1N1)pdm09",count,Public Health Laboratory Services Branch,100,"Raw count; denominator not published weekly"
+H3,"Number of specimens positive for influenza A(H3N2)",count,Public Health Laboratory Services Branch,100,
+B,"Number of specimens positive for influenza B",count,Public Health Laboratory Services Branch,100,
+AandB,"Total number of specimens positive for any influenza (A+B)",count,Public Health Laboratory Services Branch,100,
+H1_proportion,"Proportion of respiratory specimens positive for H1N1pdm09",proportion (0-1),PHLSB,100,"Denominator = total respiratory specimens tested"
+H3_proportion,"Proportion of respiratory specimens positive for H3N2",proportion (0-1),PHLSB,100,
+B_proportion,"Proportion of respiratory specimens positive for influenza B",proportion (0-1),PHLSB,100,
+AandB_proportion,"Proportion of respiratory specimens positive for any influenza",proportion (0-1),PHLSB,100,"Primary signal for PINN and EpiEstim analyses"
+ILI_School,"Number of ILI institutional outbreaks reported in schools",count,CHP outbreak surveillance,~76,"Seasonal availability; zero during school holidays"
+ILI_NonSchool,"Number of ILI institutional outbreaks in non-school settings",count,CHP outbreak surveillance,~76,
+Adm_0_5,"Influenza-associated hospital admission rate for age 0-5 years",rate per 10000 population,Hospital Authority,100,
+Adm_6_11,"Influenza-associated hospital admission rate for age 6-11 years",rate per 10000 population,Hospital Authority,100,
+Adm_12_17,"Influenza-associated hospital admission rate for age 12-17 years",rate per 10000 population,Hospital Authority,100,"Low baseline; degenerate EpiEstim R(t) in some seasons"
+Adm_18_49,"Influenza-associated hospital admission rate for age 18-49 years",rate per 10000 population,Hospital Authority,100,
+Adm_50_64,"Influenza-associated hospital admission rate for age 50-64 years",rate per 10000 population,Hospital Authority,100,
+Adm_65_higher,"Influenza-associated hospital admission rate for age 65+ years",rate per 10000 population,Hospital Authority,100,
+Adm_All,"Influenza-associated hospital admission rate for all ages",rate per 10000 population,Hospital Authority,100,
+ILI_AED,"ILI rate at Accident and Emergency departments",rate per 1000 attendances,Hospital Authority,100,
+Fever_CCCKG,"Fever surveillance rate at Child Care Centres and Kindergartens",rate per 1000 children,CHP institutional surveillance,~78,"Seasonal; zero during school holidays"
+Fever_RCHE,"Fever surveillance rate at Residential Care Homes for the Elderly",rate per 1000 residents,CHP institutional surveillance,100,
+ILI_CMP,"ILI consultation rate from Chinese Medicine Practitioners",rate per 1000 consultations,CHP sentinel surveillance,100,"Unique to Hong Kong surveillance"
+SevereCase_0_17,"Number of severe influenza cases in age 0-17 years",count,CHP severe case surveillance,~90,"Missing in some early 2014 weeks"
+SevereCase_18_49,"Number of severe influenza cases in age 18-49 years",count,CHP severe case surveillance,~90,
+SevereCase_50_64,"Number of severe influenza cases in age 50-64 years",count,CHP severe case surveillance,~90,
+SevereCase_65_higher,"Number of severe influenza cases in age 65+ years",count,CHP severe case surveillance,~90,

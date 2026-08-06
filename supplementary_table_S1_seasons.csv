@@ -1,0 +1,19 @@
+season,pathogen,start_date,end_date,n_weeks,peak_positivity_pct,peak_date,dominant_subtype,classification,classification_method,included_in_pinn,included_in_admissions,included_in_epiestim
+2014/15 winter,Influenza,2014-10-01,2015-06-01,35,38.6,2015-01-28,H3N2,Single-wave,Automatic peak detection (3-week rolling mean; scipy.signal.find_peaks prominence=0.02 distance=8),Yes,Yes,Yes
+2015/16 winter,Influenza,2015-10-01,2016-06-01,35,25.7,2016-02-24,H1N1pdm09,Single-wave,Automatic peak detection,Yes,Yes,Yes
+2016/17 winter,Influenza,2016-09-15,2017-06-01,37,15.6,2017-05-31,H3N2,Multi-wave,Automatic peak detection (2 peaks detected),No,Yes,Yes
+2017/18 summer,Influenza,2017-04-01,2018-04-01,52,40.6,2017-07-12,H3N2 then B,Multi-wave,Automatic peak detection (2 peaks: H3N2 Jul 2017 + B Feb 2018),No,Yes,Yes
+2018/19 winter,Influenza,2018-09-15,2019-06-01,37,29.9,2019-01-16,H1N1pdm09,Single-wave,Automatic peak detection,Yes,Yes,Yes
+2023 summer,Influenza,2023-01-15,2023-10-01,37,18.2,2023-04-19,H1N1pdm09,Single-wave,Automatic peak detection,Yes,Yes,Yes
+2023/24 winter,Influenza,2023-07-15,2024-04-01,37,14.9,2023-09-27,H3N2,Multi-wave (post-COVID),Automatic peak detection (sequential H3N2 and B peaks); also lowest-amplitude post-COVID,Yes,Yes,Yes
+2024/25 winter,Influenza,2024-08-01,2025-04-01,34,10.5,2025-01-22,H1N1pdm09,Single-wave (post-COVID),Automatic peak detection; lowest amplitude in dataset,Yes,Yes,Yes
+2014 spring,RSV,2014-01-01,2014-08-01,31,7.3,2014-04,N/A,Single-wave,Visual inspection of RSV_pct time series,No,No,Yes
+2015 summer,RSV,2015-01-01,2015-10-01,35,5.4,2015-07,N/A,Single-wave,Visual inspection,No,No,Yes
+2016 summer,RSV,2016-01-01,2016-10-01,35,5.0,2016-07,N/A,Single-wave,Visual inspection,No,No,Yes
+2017 summer,RSV,2017-01-01,2017-12-01,40,9.9,2017-09,N/A,Single-wave,Visual inspection,No,No,Yes
+2018 summer,RSV,2018-01-01,2018-10-01,35,6.2,2018-08,N/A,Single-wave,Visual inspection,No,No,Yes
+2019 summer,RSV,2019-01-01,2019-10-01,35,3.8,2019-09,N/A,Single-wave,Visual inspection,No,No,Yes
+2021/22 rebound,RSV,2021-04-01,2022-04-01,44,12.4,2021-12,N/A,Post-COVID rebound,Visual inspection; highest RSV positivity in dataset,No,No,Yes
+2022/23 winter,RSV,2022-07-01,2023-04-01,44,10.1,2022-12,N/A,Single-wave,Visual inspection,No,No,Yes
+2023 summer,RSV,2023-01-01,2023-10-01,44,8.3,2023-08,N/A,Single-wave,Visual inspection,No,No,Yes
+2025 summer,RSV,2025-01-01,2025-12-01,39,3.5,2025-09,N/A,Single-wave,Visual inspection; lowest RSV positivity,No,No,Yes
