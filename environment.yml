@@ -1,0 +1,14 @@
+name: pinn
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pytorch=2.2.2
+  - numpy<2.0
+  - scipy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - pip:
+    - seaborn
