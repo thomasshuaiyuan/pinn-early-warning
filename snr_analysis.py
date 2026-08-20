@@ -159,7 +159,7 @@ print("SENSITIVITY: Data-derived influenza threshold")
 print(f"{'='*80}")
 print(f"  Operational (hard-coded): 4.94%")
 print(f"  Data-derived (mean + 1.96*SD): {(flu_baseline_mean + 1.96*flu_baseline_sd)*100:.2f}%")
-print(f"  Difference: {abs(0.0494 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
+print(f"  Difference: {abs(0.0647 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
 
 # Save
 results = pd.DataFrame({

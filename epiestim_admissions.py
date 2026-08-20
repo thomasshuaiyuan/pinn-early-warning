@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore")
 # ============================================================
 SI_MEAN_DAYS = 3.0
 SI_SD_DAYS = 1.5
-CHP_THRESHOLD = 0.0494  # for lab positivity onset reference
+CHP_THRESHOLD = 0.0647  # for lab positivity onset reference
 
 # Admission signals to test
 ADMISSION_SIGNALS = [

@@ -43,7 +43,7 @@ df = pd.read_csv("flux_data.csv")
 df["From"] = pd.to_datetime(df["From"], format="%d/%m/%Y")
 df["To"] = pd.to_datetime(df["To"], format="%d/%m/%Y")
 df["MidDate"] = df["From"] + (df["To"] - df["From"]) / 2
-CHP_THRESHOLD = 0.0494
+CHP_THRESHOLD = 0.0647
 
 try:
     rsv_df = pd.read_csv("chp_respiratory_cleaned.csv")

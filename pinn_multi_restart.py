@@ -19,7 +19,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 GAMMA_VAL = 0.2  # literature standard
-CHP_THRESHOLD = 0.0494
+CHP_THRESHOLD = 0.0647
 SEEDS = [42, 123, 456, 789, 1024]
 
 class SEIR_PINN(nn.Module):
@@ -149,7 +149,7 @@ if __name__ == "__main__":
             t_eval = torch.linspace(0, 1, 500, dtype=torch.float32).reshape(-1, 1)
             with torch.no_grad():
                 Rt = model.compute_Rt(t_eval).numpy().flatten()
-            dates_eval = pd.to_datetime(start) + pd.to_timedelta(t_eval.numpy().flatten() * t_max, unit="D")
+            dates_eval = season["MidDate"].min() + pd.to_timedelta(t_eval.numpy().flatten() * t_max, unit="D")
             burn_idx = int(28 / t_max * 500) if t_max > 28 else 0
 
             onset, rt_burn = find_onset(Rt, dates_eval, burn_idx)

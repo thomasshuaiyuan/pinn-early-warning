@@ -27,7 +27,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-CHP_THRESHOLD = 0.0494
+CHP_THRESHOLD = 0.0647
 
 # ============================================================
 # MODEL
@@ -172,7 +172,7 @@ def run_one(df, start, end, name, gamma_val, n_epochs=15000, seed=42):
         Rt_pred = model.compute_Rt(t_eval).numpy().flatten()
 
     t_eval_days = t_eval.numpy().flatten() * t_max
-    dates_eval = pd.to_datetime(start) + pd.to_timedelta(t_eval_days, unit="D")
+    dates_eval = season["MidDate"].min() + pd.to_timedelta(t_eval_days, unit="D")
 
     burn_in_idx = int(28 / t_max * 500) if t_max > 28 else 0
     rt_burnin = float(Rt_pred[burn_in_idx])

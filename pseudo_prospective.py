@@ -97,7 +97,7 @@ def epiestim_retrospective(incidence, si, window=4):
 # MAIN
 # ============================================================
 
-CHP_THRESHOLD = 0.0494
+CHP_THRESHOLD = 0.0647
 SI_MEAN = 3.0
 SI_SD = 1.5
 
