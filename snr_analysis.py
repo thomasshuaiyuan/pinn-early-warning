@@ -62,13 +62,13 @@ if has_rsv:
 
 flu_seasons = [
     ("2014/15", 0.386, 35),
-    ("2015/16", 0.257, 70),
+    ("2015/16", 0.257, 77),
     ("2016/17", 0.156, -98),
-    ("2017/18", 0.406, -28),
-    ("2018/19", 0.299, 28),
-    ("2023 S", 0.182, 35),
+    ("2017/18", 0.406, -14),
+    ("2018/19", 0.299, 35),
+    ("2023 S", 0.182, 42),
     ("2023/24", 0.149, -28),
-    ("2024/25", 0.105, 49),
+    ("2024/25", 0.105, 56),
 ]
 
 rsv_seasons = [
@@ -157,9 +157,9 @@ except ImportError:
 print(f"\n{'='*80}")
 print("SENSITIVITY: Data-derived influenza threshold")
 print(f"{'='*80}")
-print(f"  Operational (hard-coded): 4.94%")
-print(f"  Data-derived (mean + 1.96*SD): {(flu_baseline_mean + 1.96*flu_baseline_sd)*100:.2f}%")
-print(f"  Difference: {abs(0.0494 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
+print(f"  Threshold used (2014-2019 non-season, mean + 1.96*SD): 6.47%")
+print(f"  Full-period (2014-2026 excl COVID, mean + 1.96*SD): {(flu_baseline_mean + 1.96*flu_baseline_sd)*100:.2f}%")
+print(f"  Period difference: {abs(0.0647 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
 
 # Save
 results = pd.DataFrame({
