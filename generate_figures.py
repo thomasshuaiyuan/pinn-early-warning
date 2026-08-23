@@ -1,7 +1,7 @@
 """
 Manuscript figures — v8, fully data-driven (no hard-coded leads).
 All quantities are computed from flux_data.csv, chp_respiratory_cleaned.csv,
-and the committed onset CSVs, using the 6.47% (flu) / 1.87% (RSV) thresholds.
+and the committed onset CSVs, using the 4.94% (flu) / 1.87% (RSV) thresholds.
 
 Run: python generate_figures.py
 Outputs: fig1_rt_trajectories, fig2_signal_amplitude, fig3_preonset_signals,
@@ -17,7 +17,7 @@ plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.labelsize'
  'xtick.labelsize':9,'ytick.labelsize':9,'legend.fontsize':8,'figure.dpi':200,'savefig.dpi':300,
  'savefig.bbox':'tight','axes.spines.top':False,'axes.spines.right':False})
 FLU='#2166AC'; RSV='#D6604D'; ADM='#4DAF4A'; ORANGE='#FF7F00'; GRAY='#999999'; THR='#E31A1C'
-FLU_TH=0.0647; RSV_TH=1.87  # RSV_pct is already in percent
+FLU_TH=0.0494; RSV_TH=1.87  # RSV_pct is already in percent
 
 df=pd.read_csv("flux_data.csv")
 df["From"]=pd.to_datetime(df["From"],format="%d/%m/%Y"); df["To"]=pd.to_datetime(df["To"],format="%d/%m/%Y")
@@ -123,7 +123,7 @@ fig,ax=plt.subplots(figsize=(8.4,4.8)); y=range(len(names))
 ax.barh(list(y),vals,xerr=sds,color=colors,edgecolor='white',height=0.7,error_kw=dict(ecolor=GRAY,elinewidth=1,capsize=3))
 for i,(v,s,n) in enumerate(zip(vals,sds,ns)): ax.text(v+s+40,i,f'n={n}',va='center',fontsize=8,color=GRAY)
 ax.set_yticks(list(y)); ax.set_yticklabels(names); ax.invert_yaxis(); ax.axvline(0,color='black',lw=0.5)
-ax.set_xlabel('Mean pre-onset change (%)  ±SD\n(8 weeks before the 6.47% threshold crossing, single-wave seasons)')
+ax.set_xlabel('Mean pre-onset change (%)  ±SD\n(8 weeks before the 4.94% threshold crossing, single-wave seasons)')
 ax.set_title('Hospital admissions surge before laboratory positivity crosses threshold',fontweight='bold')
 plt.tight_layout(); plt.savefig("fig3_preonset_signals.png"); plt.savefig("fig3_preonset_signals.pdf"); plt.close()
 
@@ -140,12 +140,12 @@ for bars,dg in [(b12,a12d),(b6,a6d)]:
     for b,d in zip(bars,dg):
         if d: b.set_hatch('///'); b.set_edgecolor('black'); b.set_alpha(0.45)
 ax.axhline(0,color='black',lw=0.8); ax.set_xticks(x); ax.set_xticklabels(seasons,rotation=30,ha='right')
-ax.set_ylabel('Lead time vs CHP 6.47% threshold (days)\n(positive = earlier detection)')
+ax.set_ylabel('Lead time vs CHP 4.94% threshold (days)\n(positive = earlier detection)')
 ax.set_title('Age-stratified admissions outperform lab positivity on difficult seasons',fontweight='bold')
 for i in [2,3,6]: ax.axvspan(i-0.42,i+0.42,alpha=0.05,color='red')
 ax.legend(loc='lower left',framealpha=0.9)
 ax.text(0.99,0.02,'/// degenerate EpiEstim fit (near-zero admission denominators)',transform=ax.transAxes,
         ha='right',va='bottom',fontsize=6.5,color=GRAY)
 plt.tight_layout(); plt.savefig("fig4_admissions_comparison.png"); plt.savefig("fig4_admissions_comparison.pdf"); plt.close()
-print("Figures regenerated (data-driven, 6.47%).")
+print("Figures regenerated (data-driven, 4.94%).")
 print("flu_leads:",dict(zip(seasons,flu_leads)))

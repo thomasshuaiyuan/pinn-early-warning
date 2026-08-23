@@ -7,7 +7,7 @@ from scipy.signal import find_peaks
 df=pd.read_csv("flux_data.csv"); df["From"]=pd.to_datetime(df["From"],format="%d/%m/%Y"); df["To"]=pd.to_datetime(df["To"],format="%d/%m/%Y")
 df["MidDate"]=df["From"]+(df["To"]-df["From"])/2
 rsv=pd.read_csv("chp_respiratory_cleaned.csv"); rsv["From"]=pd.to_datetime(rsv["From"]); rsv["MidDate"]=rsv["From"]
-FLU_TH=0.0647
+FLU_TH=0.0494
 
 # ---------- 1. DATA DICTIONARY (coverage recomputed from data) ----------
 dd=pd.read_csv("data_dictionary_flu_express.csv")

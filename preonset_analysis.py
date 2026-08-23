@@ -22,7 +22,7 @@ df["From"] = pd.to_datetime(df["From"], format="%d/%m/%Y")
 df["To"] = pd.to_datetime(df["To"], format="%d/%m/%Y")
 df["MidDate"] = df["From"] + (df["To"] - df["From"]) / 2
 
-CHP_THRESHOLD = 0.0647
+CHP_THRESHOLD = 0.0494
 
 # Single-wave seasons with clear onset
 SEASONS = [
