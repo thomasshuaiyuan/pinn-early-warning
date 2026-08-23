@@ -7,8 +7,9 @@ Yuan T, Dhanasekaran V. School of Public Health, The University of Hong Kong and
 ## Data
 - flux_data.csv — CHP Flu Express (638 weeks, 31 variables)
 - chp_respiratory_cleaned.csv — CHP RSV and other respiratory viruses (641 weeks)
-- data_dictionary_flu_express.csv — Variable definitions for all 31 flu variables
-- supplementary_table_S1_seasons.csv — Season definitions with start/end dates
+- data_dictionary_flu_express.csv — Variable definitions and coverage for all 31 flu variables
+- supplementary_table_S1_seasons.csv — Season definitions with start/end dates, peak positivity, and wave classification
+- supplementary_table_S2_preonset.csv — Pre-onset amplification per surveillance channel (single-wave seasons)
 
 ## Primary analysis scripts
 - seir_pinn_v6.py — SEIR-PINN with corrected onset definition
@@ -23,6 +24,7 @@ Yuan T, Dhanasekaran V. School of Public Health, The University of Hong Kong and
 - remaining_analyses.py — Non-season sensitivity and CI-based onset
 - final_supplementary.py — COVID exclusion, scraper validation, peak detection
 - pseudo_prospective.py — Pseudo-prospective evaluation
+- generate_supplementary.py — Regenerates the data dictionary, Table S1, and Table S2 from the raw data
 - generate_figures.py — Manuscript figures 1-4
 
 ## Environment
