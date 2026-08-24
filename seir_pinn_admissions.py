@@ -33,7 +33,7 @@ import os
 
 warnings.filterwarnings("ignore")
 
-CHP_THRESHOLD = 0.0647
+CHP_THRESHOLD = 0.0494
 GAMMA_CLAMP = 0.1
 
 # ============================================================

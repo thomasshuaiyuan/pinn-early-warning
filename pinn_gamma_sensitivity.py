@@ -27,7 +27,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-CHP_THRESHOLD = 0.0647
+CHP_THRESHOLD = 0.0494
 
 # ============================================================
 # MODEL

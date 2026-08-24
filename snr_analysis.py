@@ -159,7 +159,7 @@ print("SENSITIVITY: Data-derived influenza threshold")
 print(f"{'='*80}")
 print(f"  Operational CHP baseline (published in Flu Express reports): 4.94%")
 print(f"  Full-period (2014-2026 excl COVID, mean + 1.96*SD): {(flu_baseline_mean + 1.96*flu_baseline_sd)*100:.2f}%")
-print(f"  Period difference: {abs(0.0647 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
+print(f"  Period difference: {abs(0.0494 - (flu_baseline_mean + 1.96*flu_baseline_sd))*100:.2f} percentage points")
 
 # Save
 results = pd.DataFrame({

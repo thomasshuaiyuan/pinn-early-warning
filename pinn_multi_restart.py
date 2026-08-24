@@ -19,7 +19,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 GAMMA_VAL = 0.2  # literature standard
-CHP_THRESHOLD = 0.0647
+CHP_THRESHOLD = 0.0494
 SEEDS = [42, 123, 456, 789, 1024]
 
 class SEIR_PINN(nn.Module):

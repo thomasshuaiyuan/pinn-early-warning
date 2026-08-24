@@ -62,7 +62,7 @@ SI_MEANS = [2.0, 2.5, 3.0, 3.5, 4.0]
 SI_SDS = None  # will use mean * 0.5 for each
 WINDOWS = [3, 4, 5, 6]
 
-CHP_THRESHOLD = 0.0647
+CHP_THRESHOLD = 0.0494
 
 SEASONS = [
     ("2014/15", "2014-10-01", "2015-06-01"),
