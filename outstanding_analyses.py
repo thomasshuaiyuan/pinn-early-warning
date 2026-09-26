@@ -185,7 +185,10 @@ for _, r in fixed_df.iterrows():
 # ANALYSIS 2: Wilcoxon signed-rank test (Comment 26)
 # ============================================================
 print(f"\n\n{'='*80}")
-print("ANALYSIS 2: Wilcoxon signed-rank test — admissions vs positivity (Comment 26)")
+# NOTE (26 Sep 2026): this analysis uses the normalised-scaling rerun (epiestim_fixed_scaling.csv)
+# and gives W = 10.5, p = 0.25. The test reported in the manuscript uses the primary admissions
+# output (same source as Table 1 and Figure 4) and is computed and saved by wilcoxon_admissions.py.
+print("ANALYSIS 2: Wilcoxon signed-rank test — admissions vs positivity (Comment 26) [normalised-scaling sensitivity; reported test: wilcoxon_admissions.py]")
 print("=" * 80)
 
 # Get paired lead times: positivity vs 12-17y admissions
@@ -410,9 +413,10 @@ except:
 
 RSV_THRESHOLD = 0.0187
 RSV_SEASONS = [
-    ("2017 sum", "2017-01-01", "2017-12-01"),
-    ("2018 sum", "2018-01-01", "2018-12-01"),
-    ("2021/22", "2021-04-01", "2022-04-01"),
+    # Windows match the primary RSV analysis (epiestim_rsv.py) and Table S1
+    ("2017 sum", "2017-03-01", "2017-12-01"),
+    ("2018 sum", "2018-03-01", "2018-11-01"),
+    ("2021/22", "2021-06-01", "2022-04-01"),
 ]
 
 SI_MEANS = [5.0, 6.0, 7.5, 9.0, 10.0]
@@ -486,4 +490,4 @@ print("\nResults to incorporate into manuscript:")
 print("  1. Check whether degenerate R(t) is resolved with normalised scaling")
 print("  2. Report Wilcoxon test statistic, p-value, and bootstrap CI")
 print("  3. Replace single-replicate simulation numbers with distributional summaries")
-print("  4. Report RSV SI sensitivity range and compare to influenza (SD 8 days)")
+print("  4. Report RSV SI sensitivity range and compare to influenza (mean SD 6.8 days)")
