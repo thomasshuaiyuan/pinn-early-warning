@@ -173,14 +173,12 @@ for _, name in AGE_GROUPS:
     k = first_crossings[name]
     n = n_seasons_valid
     prop = k / n if n > 0 else 0
-    # Exact binomial CI (Clopper-Pearson)
+    # Exact binomial CI (Clopper-Pearson). The earlier version computed a Jeffreys
+    # interval, beta(k + 0.5, n - k + 0.5), under this same label.
     if n > 0:
-        ci_low = binom.ppf(0.025, n, prop) / n if k > 0 else 0
-        ci_high = binom.ppf(0.975, n, prop) / n if k < n else 1
-        # More accurate: use beta distribution
         from scipy.stats import beta
-        ci_low = beta.ppf(0.025, k + 0.5, n - k + 0.5) if k > 0 else 0
-        ci_high = beta.ppf(0.975, k + 0.5, n - k + 0.5) if k < n else 1
+        ci_low = beta.ppf(0.025, k, n - k + 1) if k > 0 else 0
+        ci_high = beta.ppf(0.975, k + 1, n - k) if k < n else 1
         ci_str = f"[{ci_low:.2f}, {ci_high:.2f}]"
     else:
         ci_str = "N/A"

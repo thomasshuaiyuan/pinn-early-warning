@@ -69,6 +69,7 @@ def make_twowave_func(base, amp1, t1, amp2, t2, width):
 N_DAYS = 154
 N_REPS = 50
 SCENARIOS = ["perfect", "scaled", "noisy", "delayed", "filtered", "thresholded"]
+SCENARIO_SEED = {name: 10000 * (i + 1) for i, name in enumerate(SCENARIOS)}  # distinct, fixed
 
 print("=" * 80)
 print("SIMULATION STUDY (FIXED): Genuine stochastic replicates")
@@ -85,7 +86,9 @@ for scenario in SCENARIOS:
         onset_errors = []
 
         for rep in range(N_REPS):
-            rng = np.random.RandomState(rep * 1000 + hash(scenario) % 10000)
+            # Fixed seed per scenario and replicate. The earlier hash(scenario) was randomised
+            # per Python process (PYTHONHASHSEED), so results did not reproduce between runs.
+            rng = np.random.RandomState(SCENARIO_SEED[scenario] + rep)
             R0_peak = rng.uniform(1.6, 2.0)
             sigma_true = rng.uniform(0.4, 0.6)
             gamma_true = rng.uniform(0.15, 0.25)
