@@ -1,0 +1,30 @@
+si_invariance_check.py -- 26 October 2026
+Does the onset estimate move when the assumed serial interval moves?
+
+influenza -- epiestim_si_sensitivity_flu.csv
+  120 rows, SI means [2.0, 2.5, 3.0, 3.5, 4.0], windows ['3', '4', '5', '6'], 6 seasons
+  onset varies with the SI mean in 0 of 24 season-window cells
+
+RSV -- rsv_si_sensitivity.csv
+  60 rows, SI means [5.0, 6.0, 7.5, 9.0, 10.0], windows ['3', '4', '5', '6'], 3 seasons
+  onset varies with the SI mean in 3 of 12 season-window cells
+    2017 sum     window 3: 5.0d -> 2017-04-05, 6.0d -> 2017-04-05, 7.5d -> 2017-03-22, 9.0d -> 2017-03-22, 10.0d -> 2017-03-22
+                 2 distinct onsets: 2017-03-22, 2017-04-05
+    2017 sum     window 4: 5.0d -> 2017-04-05, 6.0d -> 2017-04-05, 7.5d -> 2017-03-29, 9.0d -> 2017-03-29, 10.0d -> 2017-03-29
+                 2 distinct onsets: 2017-03-29, 2017-04-05
+    2017 sum     window 6: 5.0d -> 2017-04-19, 6.0d -> 2017-04-19, 7.5d -> 2017-04-12, 9.0d -> 2017-04-12, 10.0d -> 2017-04-12
+                 2 distinct onsets: 2017-04-12, 2017-04-19
+
+WHAT THIS SUPPORTS
+  Influenza: 0 of 24 cells move. The onset does not depend on the serial
+             interval, which is what the degenerate weekly kernel predicts,
+             and it is why the five-mean SI sensitivity grid returns four
+             distinct configurations rather than twenty.
+  RSV:       3 of 12 cells move. The onset does depend on it.
+  So the two halves of the pathogen contrast are not the same instrument.
+
+WHAT IT DOES NOT SUPPORT
+  The RSV effect rests on a small base: count the seasons, not the cells,
+  before quoting it. The grids are unmatched (see the header). And nothing
+  here bears on the within-pathogen signal-to-noise result, which does not
+  use the kernel and is where the amplitude claim now sits.
