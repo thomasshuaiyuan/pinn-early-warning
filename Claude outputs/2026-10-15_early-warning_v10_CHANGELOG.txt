@@ -1,0 +1,474 @@
+2026-10-15_early-warning_v10 — changelog
+BUILD 6 of 15 October — the one to use. Three documents:
+
+  file                                              package MD5            word/document.xml MD5
+  2026-10-15_early-warning_v10.docx                 7085b478d789ccaa…      4936dfc8a823b42b7315b3ead9b2d3ca
+  2026-10-15_early-warning_v10_figures.docx         06a4dbf1ac5c10dd…      e2f79fd52d31f68a01b30d286cbd010d
+  2026-10-15_early-warning_v10_supplementary.docx   8e12e0166ce7fa72…      db98cb6d0960a83564f5be28b9e2b3b2
+
+QUOTE THE SECOND COLUMN, NOT THE FIRST, WHEN CHECKING A REBUILD. A .docx is a ZIP
+and its entries carry timestamps, so rebuilding from identical inputs produces a
+byte-different package with an identical document.xml. Verified: two consecutive
+builds gave package MD5s 08b86b19… and 9d0d3a3b… with the same document.xml hash
+8ee5bba3…. A package MD5 identifies the file that was shipped; the content hash is
+what tells you whether anything changed.
+
+Earlier builds, none of which went to Vijay or anyone else: build 1 (baca22bf…,
+manuscript only), build 2 (21443e7d…), build 3 (70853b9b… / b0ce1daa… / 754746ac…),
+build 4 (ffc25f4a…, never left the session), build 5 (e72aa9de… / ca1323af… /
+e0b96014…, written to both folders and superseded within the hour by the E12
+withdrawal). Builds 1-3 were written to the two folders on this machine and are
+superseded. Builds 4 to 6 answer the second independent review — see "FOURTH AND
+FIFTH BUILDS" below.
+
+The manuscript carries 29 tracked edits by "Thomas Yuan" dated 2026-10-15, built on
+2026-09-26_early-warning_v9.docx.
+
+VIJAY'S WORK IS UNTOUCHED, AND THAT IS CHECKED THREE WAYS.
+  - word/comments.xml is BYTE-IDENTICAL to v9, as are commentsExtended.xml,
+    commentsIds.xml, commentsExtensible.xml and people.xml. All 26 comments and all
+    26 anchors are in place. No comment was added, edited, answered or resolved.
+  - Rejecting only the 15 October changes reproduces v9's text exactly.
+  - With those changes rejected, every revision owner holds exactly the character
+    stream it held in v9 — so nothing of his was deleted, reworded or re-attributed.
+  (validate_v10.py, checks C1, C2, C5 and C5b.)
+
+Where his prose is wrong or unsupported it is FLAGGED, never rewritten: see items A,
+B, C and J below. One sentence of his was re-pointed without changing a single word
+of it, and that case is set out in full under E12.
+
+All four sources — manuscript, figures, supplementary and repository — agree on every
+reported value, re-derived from the committed CSVs rather than copied between
+documents (reconcile_v10.py, 59 checks, all passing, now including Table 1 cell by
+cell and the four checks that keep the threshold sentence untouched).
+
+METHODS
+ 1. Serial-interval paragraph rewritten. The Lessler citation is removed; influenza
+    is now placed against a published range of approximately 2.2-3.6 days (Vink 2014
+    [14]; Cowling 2009 [16]), with 3.0 days stated as central to that range rather
+    than taken from one estimate. The weekly discretisation is now described: the
+    first bin begins at 3.5 days, so 68.5% of the influenza distribution is dropped
+    and the effective mean is 7.01 days (RSV: 9.9%, 8.50 days). The exact week-lag
+    distribution puts ~57% of influenza transmission in the same week, which no
+    lag>=1 weekly model can represent; the binning used is closer to that exact
+    distribution than left-aligned bins (TV 0.004 vs 0.011 influenza, 0.052 vs 0.244
+    RSV). Daily-reconstruction methods cited as the alternative [17,18].
+ 2. "20 SI/window configurations" corrected to a 5x4 grid resolving to 4 distinct
+    configurations.
+ 3. Simulation scenarios: the scaled arm is marked not reported, with the reason —
+    rescaling to a common peak of 1,000 before Poisson noise makes a constant
+    multiplier cancel exactly, and fixes SNR across arms by construction.
+
+RESULTS
+ 4. Simulation: "perfect, scaled, and filtered" -> "perfect and filtered".
+ 5. Simulation: the SI-misspecification sentence now states that both arms are
+    discretised onto the weekly grid, so the effective contrast is 7.01 vs 8.00 days
+    rather than 3.0 vs 7.0, and does not bound the cost of the discretisation.
+ 6. Influenza SI sensitivity rewritten: the five means coincide after discretisation
+    (TV <= 0.013), onset dates are identical across them, the grid is 4 configurations,
+    and lead-time SD is restated as 3.5-12.8 days, mean 7.7.
+ 7. RSV/SNR: the logistic-regression sentence is removed (not reproducible from any
+    committed script) and replaced with the within-pathogen result — influenza
+    rho = -0.06 (n=8, p=0.90), RSV rho = +0.23 (n=10, p=0.52) — and the statement that
+    the apparent amplitude effect is between pathogens, reported as a hypothesis.
+ 8. Degenerate admissions fits: mechanism stated exactly (empty window -> zero total
+    infectiousness -> posterior mean (1+SigmaI)/0.2, onset rule fires on a week with no
+    admissions, four to six weeks before the channel's first non-zero week), and the
+    already-committed degenerate-excluded sensitivity reported (n=6, W=6.0, p=0.125,
+    median +10.5 days, unchanged).
+
+DISCUSSION / LIMITATIONS
+ 9. Cross-pathogen paragraph: the weekly-resolution alternative is quantified (68.5%
+    vs 9.9% of the SI removed), with the note that its direction does not favour
+    resolution as the explanation.
+10. Limitations point two extended to state that the discretised influenza SI is
+    effectively a point mass at one week.
+
+REFERENCES
+11. [8] Lessler 2009 replaced by Carrat 2008 (viral shedding 4.80 d, 95% CI 4.31-5.29);
+    the in-text use at the gamma = 0.2 passage now states shedding as a proxy for the
+    infectious period and that the data are adults only.
+12. Added [16] Cowling 2009, [17] Nash 2023, [18] Ogi-Gittins 2024.
+
+NOT CHANGED, AND WHY
+ -  No section moved or deleted. An earlier claim that the Methods section was
+    duplicated in v9 was WITHDRAWN on 15 October: it was an artefact of a regex-based
+    text extraction. Parsing the XML gives one occurrence of each paragraph, and v9's
+    section order already matches the agreed format spec.
+ -  Table 1's 2025 RSV row is correct as printed (onset 04-02, threshold 07-02, lead
+    +91, matching epiestim_rsv_results.csv). A proposed "typo fix" to that row was
+    rejected; applying it would introduce an error.
+ -  No reported R(t) value, onset date or lead time changes. The committed binning is
+    retained because it is the more accurate of the two conventions tested.
+
+OPEN, FOR VIJAY
+ A. Highlights: "Low-amplitude laboratory signals degraded both estimators in the same
+    direction." The claim survives on the between-pathogen contrast and the admissions
+    pattern; it does not survive as a within-pathogen claim (item 7). His prose, so not
+    altered here.
+ B. Highlights: "Age-stratified admissions led positivity exactly on the hardest,
+    low-amplitude seasons" — affected by the degenerate-season exclusion (item 8).
+ C. Abstract (NOT the Author Summary - see K): "contingent on signal amplitude and on
+    parameter choices."
+
+CORRECTIONS MADE AFTER THE INDEPENDENT REVIEW (15 October)
+ R1. The degenerate-admissions sentence claimed the reported onset "precedes the
+     first non-zero admission week of that channel by four to six weeks". FALSE for
+     all three channels: each has non-zero admissions in the preceding spring
+     (2014-04-30, 2014-04-16, 2015-04-22). Replaced with the claim that is exactly
+     true and checkable — every week of the four-week estimation window ending on the
+     reported onset date carries zero admissions. The mechanism is also now split into
+     its two cases (empty current week gives 1/0.2 = 5.0; first sustained week gives
+     (1+SigmaI)/0.2), because the earlier single sentence conflated them.
+ R2. Methods inherited "degenerate R(t) maxima (~26,000)" from v9. The committed
+     maximum is 49,005. Corrected, and "adolescent" widened to the 6-11 and 12-17
+     year channels, since 6-11y is not adolescent.
+ R3. The total-variation comparison now states that it is conditioned on a lag of at
+     least one week. Unconditioned, both binnings differ from the exact law by ~0.57,
+     because neither places mass at lag zero; without the conditioning a reader
+     redoing the calculation gets a different answer.
+ R4. The RSV citation was moved so that [14] covers the mean of 7.5 days only. Vink
+     gives means, not standard deviations; the 3.5-day SD is now stated separately as
+     the value used rather than as an attributed one.
+
+THIRD BUILD (15 October, after rebuilding the figures and supplementary)
+ These are not review findings. They are defects found while building the two
+ companion documents, and three of them were in the manuscript that had already
+ been delivered twice.
+
+ T1. The "Figure 4 title change, outperform to lead" in the preview was mis-sited.
+     There is no figure with that title. "Age-stratified admissions outperform
+     positivity on difficult seasons" is a RESULTS SUBSECTION HEADING in the
+     manuscript. Both halves of it fail:
+       - "Outperform" asserts more than the test carries. One-sided Wilcoxon on
+         the 12-17y channel gives W = 10.0, p = 0.0625 across all eight seasons,
+         which is the exact test's FLOOR at four non-zero pairs and therefore
+         cannot reach 0.05 at any effect size, and p = 0.125 with the two
+         degenerate seasons excluded.
+       - "On difficult seasons" is false as a description of which seasons lead.
+         Per-season differences (positivity onset minus 12-17y admissions onset)
+         are 2014/15 +21, 2015/16 0, 2016/17 +42, 2017/18 0, 2018/19 +21,
+         2023 S 0, 2023/24 0, 2024/25 +63. The four leads include the HIGHEST-
+         amplitude season in the set (2014/15, peak 38.6%) and the third-highest
+         (2018/19, 29.9%) alongside the lowest (2024/25, 10.5%). Neither low
+         amplitude nor multi-wave structure picks them out.
+     The preview's proposed replacement, "lead lab positivity on low-amplitude and
+     multi-wave seasons", is wrong for that second reason and was DROPPED. The
+     heading now reads "12-17 year admissions led positivity in four of eight
+     influenza seasons and were never later", which states only the count and the
+     direction, both exact against wilcoxon_admissions_results.csv. The heading is
+     original text Vijay neither wrote nor revised, and the change is tracked, so
+     he can reject it in one click.
+ T2. The new reference paragraphs 16-18 were cloned from reference 15 and inherited
+     its w:pPrChange authored "Vijay", dated 2026-08-20. That is a fabricated record
+     of him having reformatted paragraphs that did not exist when he worked on the
+     file. Removed. Nothing in this build may attribute anything to him that he did
+     not do.
+ T3. The same clones accumulated their predecessors' paragraph-mark insertions AND
+     their revision ids: w:id 5042 appeared on three different elements and 5044 on
+     two. Duplicate revision ids are invalid and Word repairs them silently.
+     Removed; every id in all three documents is now unique (verified).
+ T4. The check that passed builds 1 and 2 was the wrong check. It counted revision
+     ELEMENTS by author and found them unchanged, which distinguishes nothing:
+     splitting a run inside an existing revision legitimately creates a second
+     element with the same author, while cloning a paragraph creates a new element
+     with someone else's name on it, and element counts move in both cases. The
+     replacement (validate_v10.py, C2) compares the concatenated CHARACTER STREAM
+     per revision owner with the 15 October changes rejected, which splitting
+     leaves untouched. T2 and T3 are what it caught.
+ T5. The first version of that validator fell into the exact trap this changelog
+     warns about below: its "accept all changes" view ignored w:moveFrom, so it
+     read v9's moved Methods block twice and reported two phantom failures. Fixed.
+ T6. The Methods compared RSV's spread to "the mean influenza SD of 6.8 days".
+     6.8 is the mean of the six v9 per-season SDs, which were computed with each
+     distinct configuration counted five times. On the 4 distinct configurations
+     the mean is 7.7, which is what the revised Results and the rebuilt Table S4
+     report, so the manuscript held two different means of the same six numbers.
+     Corrected to 7.7. Found by reconciling the manuscript against the rebuilt
+     Table S4, which is the check that item H said had not been run; it has now
+     been run on the SI-sweep numbers and this is what it found.
+ T7. The within-pathogen correlations were reported with permutation p-values that
+     existed only as annotations on a figure. They are now written by the figure
+     script to snr_within_pathogen_stats.csv with the permutation count and seed,
+     and the Results sentence and the figure caption both name that file. A
+     permutation p-value is a Monte Carlo estimate: an independent
+     reimplementation of the same test returned 0.51 for RSV against the script's
+     0.520, which is ordinary draw-to-draw variation and nowhere near a threshold,
+     but it is the reason the seed is now part of the reported number.
+
+FIGURES DOCUMENT (new in this build)
+ F1. Figure 2 replaced. v9's Figure 2 plots lead time against peak positivity while
+     the Results text cited it for a logistic regression on the signal-to-noise
+     ratio, so the figure and its citation were about different x-axes, and that
+     sentence is withdrawn in the manuscript (item 7). The replacement plots lead
+     time against SNR and facets by pathogen, which is where the association
+     disappears: influenza rho = -0.06 (n = 8, p = 0.90), RSV rho = +0.23 (n = 10,
+     p = 0.52). Caption rewritten accordingly and sourced to snr_analysis_results.csv.
+ F2. Figures 1, 3 and 4 unchanged. Figure 1 is already computed with the
+     weekly-discretised serial interval the revised Methods describe; Figure 3
+     contains no EpiEstim and no serial interval; Figure 4's bars are unchanged and
+     its degenerate cells are already hatched with a footnote.
+ F3. An image swap is a binary substitution and cannot be tracked. The tracked
+     caption and version-line edits beside it are the visible record.
+
+SUPPLEMENTARY DOCUMENT (new in this build)
+ S1. Table S4 panel A restated on DISTINCT configurations, which resolves the
+     contradiction between the supplementary and the manuscript's Results. The 5x4
+     grid holds 4 distinct configurations, not 20: all five influenza means fall
+     below 3.5 days, where the first weekly bin begins, so after discretisation they
+     differ by at most 0.013 in total variation and the detected onset is identical
+     across the five means in ALL 24 season-window cells (verified from
+     epiestim_si_sensitivity_flu.csv). Counting each distinct configuration five
+     times narrowed the reported SD through the n-1 denominator alone, and the SD
+     column moves accordingly: 3.1 -> 3.5, 8.8 -> 9.9, 3.6 -> 4.0, 11.4 -> 12.8,
+     8.0 -> 9.0, 6.0 -> 6.7, giving the 3.5 to 12.8 range the Results now report.
+     Medians, ranges and range widths are identical under both counts and are
+     unchanged.
+ S2. Panel B (RSV) is NOT collapsed and its numbers are unchanged. The RSV means
+     straddle the first two weekly bins and the serial-interval mean changes the
+     detected onset in 3 of the 12 season-window cells, so all 20 grid points are
+     kept. The asymmetry between the panels is a property of the distributions,
+     not a choice, and the caption now says so.
+ S3. Supplementary Figure S5 added, because the revised Limitations cite it for the
+     claim that the discretised influenza serial interval is effectively a point
+     mass at one week, and a cited figure has to exist in a document the reader can
+     open. Contents line updated.
+
+BUILDS 4 TO 6 (15 October, answering the second independent review)
+ That review read build 1, so roughly a third of what it reported was already
+ fixed by build 3. Everything below was re-derived here before being acted on,
+ and one of its findings did not survive that check.
+
+ ONE REVIEW FINDING REJECTED
+ X1. The review quotes, inside quotation marks, a sentence it attributes to v10:
+     "Both values are consistent with the 2-4 day range for influenza serial
+     intervals [8]", said to carry model durations of 2.20 and 3.14 days.
+     THAT SENTENCE DOES NOT EXIST. Searched: all 13 word/*.xml parts of v9 and of
+     v10, in accepted text and in deleted text, for the exact patterns "2-4 day",
+     "2–4 day", "Both values", "day range for influenza", "2.20" and "3.14". Zero
+     hits; a sanity check on the same search finds "serial interval" 8 times in v9
+     and 15 in v10. This is the failure mode the project logged on 8 October — a
+     real reference carrying a sentence the source does not contain — occurring in
+     a review of our own manuscript. The CLASS of defect it names is real at a
+     different site, and that site is fixed below as E15.
+
+ THE THRESHOLD: WITHDRAWN FROM THIS BUILD, AND LEFT TO VIJAY
+ E12. Build 4 corrected the Introduction sentence as a tracked change. BUILD 6
+     TAKES THAT OUT. The facts were right; the process was wrong, and it would
+     have been visible to him as a contradiction.
+     v9 already handles this sentence deliberately. Comment 704, in the document
+     he has been sent, says: "I have not changed your wording here or in the
+     Abstract. Proposed replacements, for your approval", and gives the exact
+     replacement text for the Abstract and for the Introduction. Comment 713
+     points back to it. The email Thomas sent, which Vijay has read, says the same
+     thing — that v9 "restores your wording and puts the proposed replacement in my
+     reply to your Introduction comment rather than tracking a change over your
+     text, so the decision is yours" — and discloses the consequence, that "the
+     Introduction and the Methods currently disagree with each other in the file".
+     So the sentence is wrong ON PURPOSE, the correction is already drafted where
+     he was told to look, and he was told the call is his. Tracking a change over
+     it would have taken the decision back, contradicted a comment sitting in the
+     same file, and used different wording from the replacement he has been sent.
+     The underlying facts are not in dispute and are recorded for the meeting: CHP
+     publishes 4.94% in the weekly Flu Express, and the method the sentence
+     describes yields 6.4677% on 2014-2019 (n = 156 baseline weeks, mean 0.030848,
+     SD 0.017260), which Methods already reports as 6.47%. reconcile_v10.py now
+     checks the OPPOSITE of what build 4 checked: that the sentence is untouched,
+     that Vijay's clause is verbatim, that comment 704 still carries the proposal,
+     and that no build-4 replacement text survives anywhere in the document.
+
+ CLAIMS CORRECTED
+ E13/E17. "All five means coincide after weekly discretisation" overstated. The five
+     kernels differ: first weekly weights 0.9867 to 0.99998, effective means 7.0001
+     to 7.0936 days. What is established is empirical — identical onset dates in all
+     24 season-window cells. Also, the stated bound "at most 0.013" rounded a
+     MAXIMUM down; the measured maximum pairwise total-variation distance is 0.0133.
+     Both documents now state 0.0133 and say the kernels are not identical.
+ E18. "The posterior mean is 1/0.2 = 5.0" is true for the two 12-17y channel-seasons
+     and false for 6-11y in 2014/15, where it is 4.9539: an isolated admission on
+     1 October still contributes 0.0018596 through the tail of the kernel six weeks
+     later. Recomputed from flux_data.csv against the committed estimator. The three
+     maxima reproduce exactly at (1 + sum I)/0.2. Also qualified: the zero in the
+     denominator is what the implementation computes by CDF subtraction; through the
+     survival function the same quantity is about 1.8e-18, so "no infectiousness" is
+     a property of the computation, not of the kernel.
+ E19. "The advantage was concentrated on low-amplitude and multi-wave seasons" is
+     refuted by the list in its own sentence. Ranked by peak positivity the eight
+     seasons run 2017/18 40.6, 2014/15 38.6, 2018/19 29.9, 2015/16 25.7, 2023 S 18.2,
+     2016/17 15.6, 2023/24 14.9, 2024/25 10.5. The four seasons where admissions led
+     include the SECOND- and third-highest (2014/15, 2018/19) alongside the lowest.
+     This was the same false claim as the heading corrected in E9, surviving one
+     sentence lower. NOTE: the first draft of this correction called 2014/15 the
+     highest-amplitude season, which is also wrong — 2017/18 is — and was caught by
+     ranking the CSV instead of trusting the sentence being corrected.
+ E21/E22. THE SAME CLAIM SURVIVED IN TWO MORE PLACES, both unrevised text and so
+     both ours. The Author Summary said admissions led "on the most difficult
+     seasons"; the Discussion said "on low-amplitude influenza seasons". Both now
+     state the count and the direction — four of the eight influenza seasons
+     examined, later in none — and the Discussion adds that the seasons in which
+     admissions led show no consistent relationship to amplitude. Found by reading
+     the Abstract, Author Summary and Discussion for the claim rather than only the
+     paragraph the review pointed at. With the heading (E9) and the Results sentence
+     (E19) that is FOUR sites of one unsupported claim in a single manuscript, and
+     a fifth is Vijay's and is flagged under J.
+ E23. 2018/19's peak positivity is quoted as 30.0%, matching Table 1 and the Figure 1
+     caption. A draft of E19 said 29.9%, taken from snr_analysis_results.csv, which
+     stores peak_positivity rounded to three decimals: the true maximum of the
+     A-and-B series is 0.2995, so the CSV's 0.299 reads back as 29.9 and disagrees
+     with the table. reconcile_v10.py now takes peak positivity from flux_data.csv
+     for exactly this reason, and checks all six influenza rows of Table 1 against it.
+ E16. "The same rescaling fixes the signal-to-noise ratio across arms by
+     construction" is algebraically wrong, and it was my own text from build 1.
+     Rescaling a series leaves that series' own peak-to-SD ratio unchanged and does
+     not equalise it across arms that then receive different noise, filtering or
+     thresholding. What actually cancels is the constant multiplier between the
+     perfect and scaled arms, which is the narrower and correct reason the scaled
+     arm carries no information about amplitude.
+ E15. "0.2/day (5-day, literature standard [8])" asks Carrat for the wrong quantity:
+     it measures viral shedding, not an SEIR infectious period. The caveat already
+     attached to the gamma-justification passage is now cross-referenced here too.
+ E14. The RSV serial-interval SD. The review's full-text read resolves it, and cites
+     the table: Vink Table 3 gives N(7.5, 2.1^2), from Crowcroft's England data,
+     n = 59. The repository uses 3.5. The analysis is NOT changed; the attribution
+     is. Methods now states that the mean comes from [14] and the SD does not, that
+     [14] reports 2.1, and that the value used is an unsourced modelling choice. This
+     matters more than before, because the RSV discretisation figures now reported
+     (9.9% dropped, first weight 0.800, effective mean 8.50 days) are computed from
+     that SD. DECISION OWED: whether to keep 3.5, adopt 2.1, or report both.
+ E20. Exact permutation p-values replace Monte Carlo ones throughout. n = 8 and
+     n = 10 admit exhaustive enumeration — 40,320 and 3,628,800 permutations, seconds
+     of work — giving 0.8946 and 0.5161. Influenza was reported as 0.90, a sampled
+     estimate of a quantity that rounds to 0.89. There is now no seed in any reported
+     number.
+ E11. The visible banner said "DRAFT v9, 26 September 2026" on a v10 document.
+
+ FIGURES
+ F4. FIGURE 4 CONTAINED THE WITHDRAWN CLAIM INSIDE THE IMAGE. Its plotted title read
+     "Age-stratified admissions outperform lab positivity on difficult seasons". The
+     build script's own docstring had asserted that nothing in the figures document
+     carried the word — a non-existence claim made against a surface it never
+     queried, since no text search of OOXML can read a bitmap. Found by looking at
+     the image. Regenerated from the repository's generate_figures.py with ONLY the
+     title string changed, so bars, hatching, shading and data paths are untouched.
+     New title: "12-17y admissions led lab positivity in four of eight seasons and
+     were never later". Caption extended with the count, the direction and the test.
+ F2a. FIGURE 2 DECLARED n = 10 AND DREW 9. The y-range was hardcoded at (-120, 110),
+     which put the 2022/23 RSV observation (SNR 17.49, lead +133 days) outside the
+     panel. Limits are now derived from the data, and the script asserts that every
+     observation falls inside the axes before saving, so the failure is loud rather
+     than invisible.
+ F2b. Its influenza annotation read "2024/25: lowest SNR, earliest detection (+49 d)".
+     False — 2015/16 leads by +70 days and is plotted in the same panel. It now reads
+     "lowest SNR, still led by +49 d", which is true of that point alone.
+ F2c. The title "Signal-to-noise ratio does not predict R(t) lead time" asserted an
+     absence from two non-significant tests at n = 8 and n = 10. It now reads "Rank
+     tests detect no within-pathogen association…", and the caption says in terms
+     that non-significance at these sample sizes does not establish absence.
+
+ SUPPLEMENTARY
+ S4. Table S4's note called the RSV "SI 7.5, window 4" column the primary
+     configuration. That column runs at SD 3.0, because the grid sets SD to 0.4 x
+     mean, while the primary RSV analysis runs at SD 3.5. They return the same onset
+     dates but they are not the same parameter pair, and the note now says so.
+
+ CROSS-DOCUMENT RECONCILIATION
+ R. reconcile_v10.py re-derives every value this round touched from the committed
+     CSVs and checks all three documents against it, rather than checking one
+     document against another: the six per-season SDs and their 3.5-12.8 range and
+     7.7 mean; both discretisations; the TV maximum and the rule that a stated
+     maximum may not round down; both exact p-values and the statistics CSV; the
+     three degenerate maxima and the 6-11y exception; the four-of-eight count and
+     the Wilcoxon result; the amplitude ranking; the 6.4677% reconstruction; the
+     RSV grid SD; and that four withdrawn wordings appear in no document. 48 checks,
+     all passing. Two of them failed on first run and both were faults in the
+     checker, not the documents, and are recorded as such in the script.
+
+NOTE ON COUNTING TRACKED CHANGES
+ Vijay's revision counts are convention-dependent. Text-bearing elements: 95 w:ins and
+ 59 w:del. Including paragraph-mark revisions: 116 w:ins and 65 w:del. Both v9 and v10
+ give identical counts under either convention. Quote the convention with the number.
+
+NOTE ON v9's STRUCTURE
+ v9 contains a tracked MOVE by Vijay dated 2026-08-20T09:51Z (moveFromRangeStart id
+ 521, moveToRangeStart id 207) that relocated the Methods block. The moved-from copy
+ remains in the XML as the record of where it was, so the Methods text appears twice
+ in the raw file and once in any accepted view. Any tool building a "reject changes"
+ view must handle w:moveFrom and w:moveTo as well as w:ins and w:del, or it will
+ double-count the Methods section.
+
+OPEN, FOR THOMAS
+ D. RESOLVED AS A SOURCE QUESTION, OPEN AS A DECISION, AND NOW COSTED. Vink Table 3
+    gives the RSV estimate as N(7.5, 2.1^2) from Crowcroft's England data, n = 59.
+    The code uses SD 3.5, which has no source. v10 now says so rather than
+    attributing 3.5 to Vink. What the choice changes, computed here:
+
+      SD   source                    mass dropped   week-1 weight   effective mean
+      3.5  code, unsourced                   9.9%          0.8002          8.50 d
+      2.1  Vink Table 3                      1.0%          0.9128          7.61 d
+      3.0  Table S4 grid (0.4 x mean)        6.1%          0.8365          8.18 d
+
+    Nothing else in the paper moves: the RSV onset dates and lead times are computed
+    at 3.5 and would have to be rerun to change, which is not proposed here.
+    NOTE THE DIRECTION. The cross-pathogen contrast in the Discussion is currently
+    "68.5% of the influenza serial interval removed against 9.9% of the RSV one".
+    At Vink's own SD it would be 68.5% against 1.0%, which makes that argument
+    STRONGER. The unsourced value is the conservative one, so this is not a
+    correction that costs the paper anything — it is a choice to make explicitly.
+ E. Nash 2023 is now read beyond its abstract. Ogi-Gittins 2024 remains abstract-only.
+    Surfaces queried for a full text, with the method on each: the NCBI ID converter
+    on PMID 38781911, which returns NO PMC identifier, so there is no open-access
+    full text in PMC; and the publisher body, which the independent review reports
+    returned cookie material and a 403. Not queried: any institutional subscription
+    route through HKU, which is the remaining way to get it. The manuscript
+    paraphrases rather than quotes it, which its abstract supports, and the two
+    methods must not be described as the same — Nash reconstructs daily incidence by
+    EM, Ogi-Gittins uses simulation-based inference with latent daily trajectories.
+ F. DISCHARGED in this build: the figures document is rebuilt around the new Figure 2
+    and the supplementary now carries Figure S5. The "Fig 4 title" half of this item
+    was wrong — see T1.
+ G. DISCHARGED in this build: Table S4 panel A is on the 4-configuration form and no
+    longer contradicts the Results. See S1.
+ J. STILL FOR VIJAY, raised by the second review and not acted on. Two amplitude
+    claims outside the three passages already flagged are his insertions of
+    2026-08-20 and are untouched: the Introduction's "the apparent success or
+    failure of R(t)-based onset detection was driven not by the sophistication of
+    the estimator but by… the amplitude of the input signal", and "We show that a
+    low signal-to-noise input degrades both estimators in the same direction". The
+    within-pathogen rank tests do not support amplitude as an identified driver;
+    the between-pathogen contrast remains descriptive. His prose, his call.
+ K. The changelog previously placed the "contingent on signal amplitude and on
+    parameter choices" sentence in the Author Summary. It is in the Abstract.
+    Corrected here; it matters for a targeted editorial check.
+
+ H2. DISCHARGED. The four-source reconciliation is now complete for every reported
+    value, not only the ones this round touched. reconcile_v10.py re-derives from
+    the committed CSVs and checks all three documents against them: Table 1 cell by
+    cell (peak positivity for all six influenza rows against flux_data.csv, every
+    EpiEstim onset date against epiestim_admissions_results.csv, and every
+    admissions lead against the best age-stratified channel in that season); the six
+    per-season SDs with their range and mean; both discretisations; the TV maximum,
+    with a rule that a stated maximum may not round down; both exact p-values
+    against the statistics CSV; the three degenerate maxima and the 6-11y exception;
+    the four-of-eight count and the Wilcoxon result; the amplitude ranking; the
+    6.4677% reconstruction; the RSV grid SD; that no withdrawn wording survives
+    anywhere; and that Vijay's three amplitude sentences are present and unaltered.
+    55 checks, all passing. The item H text below is kept as the record of what was
+    outstanding before this build.
+
+ H. PARTLY DISCHARGED. The SI-sweep numbers have now been reconciled across the
+    manuscript, the supplementary and the repository, and that is what found T6.
+    Reproduced independently from the committed CSVs in this round: the six
+    per-season influenza SDs and their 3.5 to 12.8 range and 7.7 mean; the RSV
+    8.0 to 8.2 range; the influenza SNR range 6.8 to 26.4 and the RSV range 6.1 to
+    21.5; both within-pathogen correlations; and the three degenerate maxima
+    49,005, 26,005 and 27,505. What has NOT been re-derived is the rest of Table 1
+    and the Abstract, which quote lead times and medians rather than SDs. Nothing
+    in them is known to move, but that is reasoning rather than a check, and the
+    full four-source reconciliation against a named commit still has to be run
+    before anything goes to Vijay.
+ I. The three documents are built from v9 files staged off this machine, and the
+    repository is at commit 98f32ca with the CSVs behind every number above
+    tracked at that commit. The build scripts (build_v10.py, build_v10_figs.py,
+    build_v10_supp.py, validate_v10.py, make_v10_figs.py) are NOT yet in the
+    repository, so this build is currently reproducible only from the session
+    workspace. They belong in the repository before the next round.

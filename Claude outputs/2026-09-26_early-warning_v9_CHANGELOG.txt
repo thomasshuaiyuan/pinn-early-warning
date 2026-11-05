@@ -1,0 +1,13 @@
+CHANGELOG: early-warning manuscript (newest first)
+
+2026-09-26  v9  Supersedes v8 (2026-08-25). VD's own 19 Aug file, with his tracked changes and comments left as they were;
+  my changes are tracked as "Thomas Yuan" and my responses are comments in the document. Numbers regenerated from the
+  repository (commit: 98f32ca); references checked against Crossref and PubMed (refs 4, 5, 7, 12, 13 corrected).
+  Independent check before sending: simulation seeds made fixed so the simulation output reproduces (numbers updated),
+  and two confidence intervals corrected (exact binomial; post-COVID peak difference, now from a committed script).
+  Files: 3_docs/2026-09-26_early-warning_v9.docx, _v9_figures.docx (legends only changed), _v9_supplementary.docx (adds Table S4).
+
+2026-08-25  v8  Supersedes v7. Addressed the 19 Aug discrepancies, but changed VD's "analytical reconstruction"
+  wording without asking first (reverted in v9); the Wilcoxon and the Table S1 RSV windows were not fully fixed (fixed in v9).
+
+2026-08-19  v7 (VD revision)  VD's revision of the Abstract, Introduction and Methods opening, with four comments.

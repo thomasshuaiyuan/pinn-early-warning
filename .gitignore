@@ -1,0 +1,11 @@
+
+# build scratch produced by the PLOS formatting runs of 5 November 2026
+.DS_Store
+v10_build/__pycache__/
+v10_build/_figsrc/
+v10_build/_plos2_*/
+v10_build/_plos3_*/
+v10_build/_plos_*/
+v10_build/_si_*/
+v10_build/_v11/
+v10_build/_v11_*/

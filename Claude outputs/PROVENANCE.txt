@@ -1,0 +1,10 @@
+The v10 file here with the SECOND-BUILD suffix has word/document.xml MD5
+3087d88a4b100fac251c885793aaf536, with 214 insertions and 153 deletions.
+It is an earlier build iteration and is NOT what was released.
+
+The released v10 is MD5 5d56c38565a55fdeb8ddef8f71a7cf78, with 216 and 148, and
+the copies carrying it are the shared folder (Thomas early-warning/3_docs) and
+HKU-influenza/manuscript. Build from those.
+
+2026-10-15_early-warning_v10_figures.docx in this folder IS the released figures
+file and is the source make_plos_figures.py reads for Fig 1, Fig 2 and Fig 4.

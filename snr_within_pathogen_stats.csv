@@ -1,0 +1,3 @@
+pathogen,n_seasons,spearman_rho,perm_p_two_sided,p_method,n_permutations,source,script
+Influenza,8,-0.060,0.8946,exact enumeration,40320,snr_analysis_results.csv,make_v10_figs.py
+RSV,10,0.231,0.5161,exact enumeration,3628800,snr_analysis_results.csv,make_v10_figs.py
