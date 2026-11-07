@@ -9,3 +9,15 @@ v10_build/_plos_*/
 v10_build/_si_*/
 v10_build/_v11/
 v10_build/_v11_*/
+
+# PLOS build outputs, 7 November 2026. The build regenerates these from the source
+# .docx on every run, so git carries the build and not its products. The hand-written
+# files in _stage_plos — the cover-letter draft, the input sheet, the checklist and the
+# two authorship-map JSONs — are tracked, because nothing regenerates those.
+v10_build/_stage_plos/*.docx
+v10_build/_stage_plos/PREVIEW_submission_readable.md
+v10_build/_stage_plos/_cover_body.md
+# scratch the shell on a mounted folder cannot delete, and superseded copies kept
+# only so a change is auditable; the record in Claude outputs/ names what changed.
+v10_build/_to_delete/
+v10_build/_superseded_paths/
