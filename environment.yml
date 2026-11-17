@@ -1,14 +1,18 @@
 name: pinn
+# Versions are those installed in the environment that produced the reported results,
+# read from its conda-meta records on 17 November 2026. scikit-learn and seaborn were
+# installed with pip and their versions are not in those records: fill both from
+# `pip list` in the pinn environment before the archive is minted.
 channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.11
+  - python=3.11.13
   - pytorch=2.2.2
-  - numpy<2.0
-  - scipy
-  - pandas
-  - matplotlib
-  - scikit-learn
+  - numpy=1.26.4
+  - scipy=1.17.0
+  - pandas=3.0.0
+  - matplotlib-base=3.10.1
   - pip:
-    - seaborn
+    - scikit-learn  # version to be pinned
+    - seaborn       # version to be pinned

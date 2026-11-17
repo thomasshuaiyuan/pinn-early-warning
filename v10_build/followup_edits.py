@@ -38,8 +38,12 @@ EDITS = [
                '2018/19 and 2023 summer, at 5/5 detection with onset ranges of 7–20 '
                'days. The definition is taken from there, not invented.',
       old='showed onset date ranges of 7–20 days for stable seasons (3/6).',
-      new='showed onset date ranges of 7–20 days for the three seasons in which all five '
-          'restarts detected onset (2014/15, 2018/19 and 2023 summer).'),
+      # 17 November 2026, gate line I5: pinn_multi_restart_results.csv has FOUR seasons at
+      # 5/5 detection. 2024/25 is the fourth and its onset dates span 27 September 2024 to
+      # 26 February 2025, 152 days. The earlier wording counted three and omitted it.
+      new='showed onset date ranges of 7–20 days in three of the four seasons in which all '
+          'five restarts detected onset (2014/15, 2018/19 and 2023 summer); in the fourth, '
+          '2024/25, the range was 152 days.'),
 
  dict(id='KME-17', who='KME',
       source='Her comment on "12–17y and 6–11y": "keep abbreviations consistent".',

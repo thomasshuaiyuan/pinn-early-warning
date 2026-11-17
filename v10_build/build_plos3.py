@@ -61,8 +61,9 @@ def _trunc(t, n=600):
     return cut + ' \u2026'
 
 # Package date and version, carried into every output filename.
-# v1 6 November, v2 7 November, v3 10 November.
-PKG_DATE, PKG_VER = '2026-11-10', 'v3'
+# v1 6 November, v2 7 November, v3 10 November, v4 17 November (submission-gate fixes:
+# Table 2 restart sentence, AI-use statement).
+PKG_DATE, PKG_VER = '2026-11-17', 'v4'
 AUTHOR, DATE = 'Thomas Yuan', '2026-11-05T12:00:00Z'
 SHORT_TITLE = 'R(t) onset detection for influenza and RSV in Hong Kong'
 
@@ -98,6 +99,23 @@ CODE_AVAIL = (
     'All code used to produce the results reported here, together with the derived data '
     'files, is available at https://github.com/thomasshuaiyuan/pinn-early-warning and '
     'archived at ')
+
+AI_STATEMENT = (
+    'The research questions, the study design, the choice of data, estimators, thresholds and '
+    'comparators, the interpretation of the results and the conclusions were determined by '
+    'the authors. During the work TY used a large language model assistant (Claude, '
+    'Anthropic; versions available between April and November 2026) as a tool under his '
+    'direction, for three purposes: help with writing, debugging and running the Python '
+    'analysis and document-build scripts; help with drafting and copy-editing manuscript '
+    'text, which the authors then revised; and checking, in which reported values were '
+    'recomputed from the output files and references were compared with Crossref and PubMed '
+    'records. A second tool, Biomni, was used to obtain an independent critique of drafts. '
+    'No tool was used to generate, alter or impute data or to create images; every figure is '
+    'plotted by code from the output files. Every output of these tools was treated as a draft or as a '
+    'claim to be verified. TY decided what was accepted, changed or discarded, each reported '
+    'value is traceable to a deposited output file, and decisions and the reasons for them '
+    'were recorded as the work proceeded. The authors reviewed the manuscript in full and '
+    'are responsible for its content.')
 
 AFFIL_NOTE = (
     '[Affiliations] Applied from the block you sent on 6 November. v10 had HKU SPH and '
@@ -425,7 +443,16 @@ def build(mode):
         meth.append(p); p = p.getnext()
     # the ethics statement PLOS requires lives at the end of the Methods
     eth_head = para([('Ethics statement', False)], style='Heading2')
-    meth_tail = [eth_head, slot('VD-1')]
+    # PLOS policy on AI tools (Ethical Publishing Practice, read at source 17 November 2026):
+    # use that generates or revises content, or supports the research including code, is
+    # disclosed in the article, naming the tools, how they were used, the parts affected and
+    # how outputs were checked. The bracket stays until TY has confirmed each clause and VD
+    # has read the statement (gate lines I8c, I8d).
+    ai_head = para([('Use of artificial intelligence tools', False)], style='Heading2')
+    ai_para = para([(AI_STATEMENT, False),
+                    (' [TY-4 \u2014 AI STATEMENT: TY to confirm the tools, versions and each '
+                     'clause; VD to read before submission]', True)])
+    meth_tail = [eth_head, slot('VD-1'), ai_head, ai_para]
     refs_head = find_para('References', heads)
 
     def mark(p, kind):
@@ -1233,6 +1260,19 @@ def build(mode):
                 croot.remove(ov)
         ct.write(cp, xml_declaration=True, encoding='UTF-8', standalone=True)
         print(f'     stripped comment parts {drop} and relationships {gone}')
+    # Gate line I12, 17 November 2026: the package inherited the source file's core properties
+    # (creator 'Un-named', last modified by 'Vijay', August dates). In the submission copy
+    # they are set to this build; the editing copy keeps them, since it is his working file.
+    if mode != 'edit':
+        corep = os.path.join(work, 'docProps', 'core.xml')
+        if os.path.isfile(corep):
+            c = open(corep, encoding='utf-8').read()
+            stamp = PKG_DATE + 'T00:00:00Z'
+            c = re.sub(r'<dc:creator>.*?</dc:creator>', '<dc:creator>Thomas Yuan</dc:creator>', c)
+            c = re.sub(r'<cp:lastModifiedBy>.*?</cp:lastModifiedBy>',
+                       '<cp:lastModifiedBy>Thomas Yuan</cp:lastModifiedBy>', c)
+            c = re.sub(r'(<dcterms:modified[^>]*>).*?(</dcterms:modified>)', r'\g<1>' + stamp + r'\g<2>', c)
+            open(corep, 'w', encoding='utf-8').write(c)
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         for name in order:
             z.write(os.path.join(work, *name.split('/')), name)
@@ -1353,7 +1393,7 @@ for mode in ('edit', 'submit'):
     if mode == 'edit':
         check('[KME \u2014 WITHHELD ON YOUR WORDING]' in allt,
               'the list of what was withheld on his wording is in Open queries')
-    want = 8 if mode == 'edit' else 4
+    want = 9 if mode == 'edit' else 5   # +1 on 17 November: [TY-4] AI statement
     check(len(brackets) == want, f'{want} input brackets present',
           ', '.join(f'{a}' for a, b in brackets))
     print('     input brackets: ' + '; '.join(f'[{a}] {b.strip()}' for a, b in brackets))
