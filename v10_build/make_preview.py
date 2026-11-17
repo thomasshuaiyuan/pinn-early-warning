@@ -6,7 +6,7 @@ the .docx is the source of truth and this is a view of it.
 
   python3 make_preview.py [OUT_DIR]
 """
-import os, sys, zipfile
+import glob, os, sys, zipfile
 from lxml import etree
 
 W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
@@ -16,7 +16,9 @@ NS = {'w': W}
 BUILD = os.path.dirname(os.path.abspath(__file__))
 STAGE = os.environ.get('PLOS_DEST') or os.path.join(BUILD, '_stage_plos')
 OUT = sys.argv[1] if len(sys.argv) > 1 else STAGE
-SRC = os.path.join(OUT, '2026-11-05_early-warning_PLOSCB_SUBMISSION-READY.docx')
+# Pick up whatever the build named it, so the preview cannot drift from the package.
+_cand = sorted(glob.glob(os.path.join(OUT, '*_PLOSCB_*SUBMISSION-READY.docx')))
+SRC = _cand[-1] if _cand else os.path.join(OUT, 'SUBMISSION-READY.docx')
 if not os.path.isfile(SRC):
     sys.stderr.write(f'make_preview.py: not found: {SRC}\n'
                      'Run build_plos3.py first, or pass the directory holding it.\n')
@@ -41,7 +43,7 @@ for p in body:
         lines += [txt.strip(), '']; np_ += 1
 
 hdr = ['# PLOS Computational Biology submission, readable preview', '',
-       'Generated from `2026-11-05_early-warning_PLOSCB_SUBMISSION-READY.docx` by',
+       f'Generated from `{os.path.basename(SRC)}` by',
        '`make_preview.py`. The .docx is the source of truth; this file is a view of it and',
        'is not edited by hand. Tracked changes and comments live in the FOR-EDITING copy',
        'and are not shown here, because the submission copy carries none.', '', '---', '']

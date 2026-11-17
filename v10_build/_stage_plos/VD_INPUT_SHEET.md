@@ -1,20 +1,29 @@
 # What VD needs to supply — PLOS Computational Biology submission
 
-**Five of the recommendations are now one-click.** They are tracked changes in the editing copy,
-authored **"Thomas Yuan — recommendation"**, each with a Word comment anchored to it carrying the
-reasoning. In the Review pane he clicks **Accept** to apply or **Reject** to discard, and because
-the author label is distinct he can filter the pane to see only recommendations, separately from
-the Methods relocation. Rejecting any of them restores the current text exactly — verified in the
-build, not assumed.
+> **Updated 11 November 2026** (recommendations converted from tracked changes to questions; see
+> below). **Earlier update, 10 November 2026.** Kimberly Edwards returned the second half of her review —
+> the Discussion and Methods she had not reached — on 10 November: 192 further tracked
+> revisions and 15 further comments. A section on what in that is yours sits below, before
+> the bracket list. **Everything else in this sheet is reproduced unchanged from
+> 6 November**, so a mismatch anywhere else is this rewrite's fault rather than a change of
+> position. Nothing has been sent to you or to her.
 
-| Tracked change | What it proposes |
+**Nothing in this copy rewrites your words or framing, and nothing is a tracked change you have
+to reject.** Updated 11 November, under your note of 25 September ("ask before, not after"). The
+title, Author Summary and Abstract recommendations were tracked changes until today; they are now
+questions. Each is a Word comment authored **"Thomas Yuan — recommendation"**, anchored on the
+sentence it concerns, with the proposed wording in full for you to take or leave in a word:
+
+| Comment | What it asks |
 |---|---|
-| **R1** | the title with respiratory syncytial virus spelled out, 189 of 200 characters |
-| **R2a–c** | three edits converting the Author Summary to first person, touching no number |
-| **R3** | the Abstract's "an analytical reconstruction" becomes "the published operational influenza threshold", which is the 30 October question |
-| **Q1** | a comment with no edit: sixteen seasons here against eighteen elsewhere, because there is no single replacement to accept |
+| **[VD-6]** on the title | spell out respiratory syncytial virus, 189 of 200 characters |
+| **[VD-7]** on the Author Summary | three changes converting it to first person, touching no number |
+| **[Q1]** on "eight influenza and ten RSV peaks" | six plus ten or eight plus ten, and "peaks" against "pathogen-seasons" |
 
-**Everything that cannot be one-click is still bracketed**, because it is a blank to fill or a
+The Abstract's "an analytical reconstruction" is asked in the `[VD-5]` bracket and is not
+touched.
+
+**Everything else is bracketed**, because it is a blank to fill or a
 decision with no proposed wording. Search for `[VD-` or `[TY-`: eight in the editing copy, four in
 the submission copy. The label names the owner — **VD** is his, **TY** is Thomas's — and the build
 counts them, so none can be lost.
@@ -35,8 +44,8 @@ counts them, so none can be lost.
 ### `[VD-6]` and `[VD-7]` are recommendations, deliberately not edits
 
 Both would rewrite words rather than correct a number, and the title, abstract and Author
-Summary are not mine to rephrase. Each bracket carries the proposed wording in full so it can be
-accepted or rejected in place.
+Summary are not mine to rephrase. Each comment carries the proposed wording in full; nothing is
+applied until you say so.
 
 `[VD-6]` PLOS asks that the title avoid specialist abbreviations and that the abstract carry
 none. The title uses RSV; the abstract introduces SEIR, PINN, CHP and RSV. The recommended title
@@ -120,6 +129,110 @@ the `pinn-early-warning` repository (no `.R` files, 39 Python files), `HKU-influ
 **One clause was dropped on a journal rule rather than a preference.** "Or from the corresponding
 author upon reasonable request" is standard at other journals and is not acceptable at PLOS as a
 default — see system field 7 below.
+
+---
+
+## Kimberly Edwards's second pass, 10 November — what in it is yours
+
+She has now been through the whole paper. Across both rounds: **459 tracked revisions and
+48 comments**, all in the editing copy under her own name, filterable in the Review pane.
+Her second round is dated 10 November so the two passes are distinguishable on sight.
+
+She worked from the submission copy both times, so **she has still not seen your comments**,
+and everything she raises she raised independently.
+
+### Five of her comments are your half of the writing
+
+By the April 2026 division the Introduction and Discussion are yours, so these are carried
+into the document and **not** pre-written:
+
+- **An overarching conclusion.** "Don't end on limitations… Summarize contributions of this
+  paper to existing body of knowledge and highlight knowledge gaps for further study."
+  The paper currently ends on the limitations paragraph.
+- **The practical implications.** "Is an earlier detection necessarily 'better' if it
+  predicts epidemic onset >30 days in advance? How can these retrospective analyses & tools
+  inform future public health preparedness?"
+  **Your own comment of 19 August makes the same point**: "the practical utility of epidemic
+  onset in HK or other regions is not quite clear, affecting impact of study." She raised it
+  without having seen your comments, so it has now come from two readers.
+- **The limitations structure.** They read as a numbered list by the fifth item; she
+  suggests folding each into the subsection it belongs to. She also proposes **merging
+  Results and Discussion**, which would change the PLOS section order, so that one is a
+  question rather than a suggestion.
+- **More references behind the general claims**, in the Introduction and Discussion.
+- **The adolescent-amplifier reading** could be "further elucidated in the discussion —
+  including alternative interpretations with additional references".
+
+These are the strongest comments in her second pass, and all five land in your half.
+
+### Two of her edits would have changed your words, and were not applied
+
+- **The ethics sentence.** She rewrote "As all data are publicly available in aggregate form
+  from CHP, with no individual-level information" to "As all data are de-identified and
+  publicly available in aggregate". The phrase she deletes is yours, and the determination is
+  `[VD-1]`, which is yours to make. Her own comment on that bracket reads simply **"update"**.
+  Worth knowing before you settle it: *de-identified* would be a drift rather than a tidy,
+  because aggregate surveillance counts were never identified, and the word implies individual
+  records existed and were stripped.
+- **The Abstract's remaining numerals.** Her convention is to spell out numbers under ten.
+  Round one applied it wherever the words were Thomas's, which is why the sentence now reads
+  "five of six seasons" in its first half and "5 of 6 seasons" and "all 6 seasons" in its
+  second. The second half is yours. One word from you runs her convention through the whole
+  sentence or takes it out of the first half.
+
+### Three decisions that are not edits
+
+- **Supporting figure numbering.** She has asked twice for `S5 Fig` to become `S1 Fig`, and
+  her second pass made the renumbering consistent where the first left one figure cited under
+  two names, so it is now adoptable. Two things to weigh: it renames `S5_Fig.tif`, which sits
+  with the deferred figure work; and it is a preference rather than a rule — the PLOS
+  Computational Biology guidelines, read at source on 10 November, ask only that a supporting
+  item's name "contains an 'S' and number" and set no separate sequence for figures and tables.
+- **Equations.** She quotes the PLOS guidance that MathType is recommended for display and
+  inline equations, and the quotation is verbatim correct. The same page also says to **avoid**
+  MathType for single variables, and almost all of this manuscript's mathematics is single
+  variables plus one short inline relation. A production decision at upload, not a text edit.
+- **Three relocations.** Post-hoc season classifications to the Discussion, the Hu et al.
+  comparison to the Discussion, and the multi-restart sentence from Methods to Results. All
+  three move material between your half and Thomas's, so they belong in one decision rather
+  than three.
+
+### What was applied, and what was held
+
+Fourteen of her 10 November changes are in, as tracked changes authored **"Thomas Yuan —
+answers KME round 2"**, so they filter separately from everything else. Under the same author,
+fourteen further counts in my own prose now follow her number convention (11 November), so the
+text no longer mixes "four of six" with "5 of 6"; the Abstract keeps its numerals because they
+are your words. Nineteen are held,
+each with its reason stated in the Open queries block of the editing copy.
+
+Five of the held ones are worth knowing about because they would have cost the paper
+something: detection in all ten RSV seasons; "onset dates shifted by 0–7 days" becoming
+"7 days", which repeats an edit of hers already repaired on 6 November; the five manually
+validated CHP weeks that are the only evidence the RSV scraper is right; `scipy.signal.find_peaks`
+replaced by a description of the smoothing, which leaves the prominence and distance settings
+attached to nothing; and "and is not modelling-free", which is the point of the sentence it ends.
+
+### Her role, against the journal's own criteria
+
+Across two rounds this is 459 edits and 48 comments, including the Methods and Discussion.
+**The call is yours**, and nothing has been said to her. What follows is the criterion rather
+than an opinion.
+
+PLOS Computational Biology's authorship page, read at source on 10 November, sets three
+requirements, all of which must be met. The first is "substantial contributions to one or
+more of" a list that includes **"drafting or substantially revising the article"**. Note the
+*one or more*: this is not the four-part ICMJE formulation, and revision alone can satisfy
+the first criterion. On the record in the file she meets it.
+
+The second and third are that the author "approved the submitted version" and agrees to "be
+personally accountable for the author's own contributions". **Neither can be settled without
+asking her.** So the honest position is not "acknowledge her" and not "add her" — it is that
+she meets the first criterion and the remaining two are a question to put to her.
+
+One consequence either way: if the decision is acknowledgment, the same page requires that
+"those being acknowledged have given their permission to be named", so she has to be asked
+in that case too. `[VD-2]` is where the name would go.
 
 ---
 

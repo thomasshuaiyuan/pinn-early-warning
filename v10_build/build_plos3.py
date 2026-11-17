@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ooxml_track import NS, q, W, XML
 import kme_edits
 import followup_edits
+import kme2_edits
 
 # Paths are derived from this file's own location, so the build runs wherever the
 # repository is checked out: on the Mac, in the Linux VM that mounts it under ~/mnt,
@@ -52,6 +53,16 @@ def preflight():
     if not os.access(DEST, os.W_OK):
         sys.stderr.write(f'build_plos3.py: destination is not writable: {DEST}\n')
         raise SystemExit(2)
+def _trunc(t, n=600):
+    """Cut a quoted passage at a word boundary rather than mid-word."""
+    t = t.strip()
+    if len(t) <= n: return t
+    cut = t[:n].rsplit(' ', 1)[0].rstrip(' ,;:')
+    return cut + ' \u2026'
+
+# Package date and version, carried into every output filename.
+# v1 6 November, v2 7 November, v3 10 November.
+PKG_DATE, PKG_VER = '2026-11-10', 'v3'
 AUTHOR, DATE = 'Thomas Yuan', '2026-11-05T12:00:00Z'
 SHORT_TITLE = 'R(t) onset detection for influenza and RSV in Hong Kong'
 
@@ -132,13 +143,23 @@ REC_AUTHOR = 'Thomas Yuan \u2014 recommendation'
 # edits that answer a named comment are authored by whose comment they answer,
 # so the Review pane filters to one reviewer at a time
 FU_AUTH = {'KME': 'Thomas Yuan \u2014 answers KME',
-           'VD':  'Thomas Yuan \u2014 answers VD'}
+           'VD':  'Thomas Yuan \u2014 answers VD',
+           'KME2': 'Thomas Yuan — answers KME round 2'}
 REC_DATE = '2026-11-06T09:00:00Z'
 
 # Each entry becomes ONE tracked change plus ONE anchored comment, so Vijay
 # clicks Accept or Reject in the Review pane and the reasoning is a hover away.
 # Applied in the editing copy only: these are proposals, so the submission copy
 # keeps the current text, which is the same as rejecting them.
+# 11 November 2026, Thomas: the five recommendations are NOT applied as tracked changes.
+# Vijay's working-practices note of 25 September: "Do not alter my wording or framing in a
+# manuscript without raising it first. Tracked changes with an offer to revert put the
+# burden of objection on me; ask before, not after." R3 rewrites his inserted word, and
+# R1/R2 are framing. [VD-5], [VD-6] and [VD-7] already put the same three questions to him
+# as brackets with the proposed wording supplied. The list is kept so the wording and the
+# reasoning stay on record; the Q1 question comment still goes in.
+DROP_RECOMMENDATIONS = True
+
 RECOMMENDATIONS = [
  ('R1 title',
   'a retrospective cross-pathogen evaluation of influenza and RSV in Hong Kong',
@@ -198,8 +219,12 @@ def check(ok, label, detail=''):
 def ptext(e): return ''.join(t.text or '' for t in e.iter(q('t')))
 
 def build(mode):
-    out = (f'{DEST}/2026-11-05_early-warning_PLOSCB_FOR-EDITING.docx' if mode == 'edit'
-           else f'{DEST}/2026-11-05_early-warning_PLOSCB_SUBMISSION-READY.docx')
+    # VD's working-practices note of 25 September: "Every filename carries its date and
+    # version". The date is this revision's, not the source manuscript's, so a file whose
+    # name says 5 November can never again carry content built on the 10th.
+    out = (f'{DEST}/{PKG_DATE}_early-warning_PLOSCB_{PKG_VER}_FOR-EDITING.docx'
+           if mode == 'edit' else
+           f'{DEST}/{PKG_DATE}_early-warning_PLOSCB_{PKG_VER}_SUBMISSION-READY.docx')
     # One scratch directory per mode, reused rather than timestamped: a timestamp left
     # a pair behind on every run, and the shell that drives this on a mounted folder
     # cannot delete them. Reuse is safe because extractall overwrites and the output
@@ -553,8 +578,24 @@ def build(mode):
                         'deleted words you wrote, so it was not applied and your wording '
                         'stands. Her version of each is below, to adopt or ignore.', False)])]
                  + [para([(f'[KME p{h["para"]}] ', True),
-                          (h['kind'] + '. Her version: ' + h['hers'][:600], False)])
+                          (h['kind'] + '. Her version: ' + _trunc(h['hers'])
+                           if h['hers'].strip() else
+                           h['kind'] + '. Her version is a deletion, so there is nothing '
+                           'to quote; the paragraph stands as you wrote it.', False)])
                     for h in kme_edits.HELD]
+                 + [para([('[KME ROUND 2 — HER SECOND PASS, 10 NOVEMBER] ', True),
+                       ('She returned the Discussion and Methods on 10 November: 192 further '
+                        'tracked revisions and 15 further comments, all carried here under her '
+                        'name. She worked in her own 6 November copy rather than this one, so '
+                        'her file also repeats the 321 revisions already merged, on a base that '
+                        'predates the follow-up edits; only her 10 November work was considered. '
+                        + str(len([e for e in kme2_edits.EDITS])) + ' of her changes are '
+                        'applied, as tracked changes authored "Thomas Yuan — answers KME '
+                        'round 2". ' + str(len(kme2_edits.HELD)) + ' are not, and each says '
+                        'why below. Two are held because the words are yours.', False)])]
+                 + [para([(f'[KME2 — {h["rule"]}] ', True),
+                          (h['what'] + ' ' + h['why'], False)])
+                    for h in kme2_edits.HELD]
                  + [para([('Retained from the pre-submission draft, not part of the PLOS '
                         'submission', False)], style='Heading1'),
                  para([('PLOS Computational Biology has no Highlights section. These four lines '
@@ -852,8 +893,11 @@ def build(mode):
     if mode == 'edit':
         from ooxml_track import Editor
         for k, name in FU_AUTH.items():
-            fu_ed[k] = Editor(root, name, '2026-11-07T10:00:00Z',
-                              first_id=60000 if k == 'KME' else 70000)
+            fu_ed[k] = Editor(root, name,
+                              '2026-11-10T12:00:00Z' if k == 'KME2'
+                              else '2026-11-07T10:00:00Z',
+                              first_id={'KME': 60000, 'VD': 70000,
+                                        'KME2': 80000}.get(k, 90000))
     fu_done, fu_miss = 0, []
     for e in followup_edits.EDITS:
         hits = [p for p in live_paras() if e['old'] in ptext(p)]
@@ -872,6 +916,26 @@ def build(mode):
           f"{len(followup_edits.EDITS)}"
           + (f"  NOT APPLIED: {fu_miss}" if fu_miss else ''))
     assert not fu_miss, f'follow-up edits did not anchor: {fu_miss}'
+
+    # ------- 9b4. her second pass, 10 November: only the 10-Nov revisions -------------
+    k2_done, k2_miss = 0, []
+    for e in kme2_edits.EDITS:
+        hits = [p for p in live_paras() if e['old'] in ptext(p)]
+        if len(hits) != 1:
+            k2_miss.append((e['id'], len(hits))); continue
+        tgt = hits[0]
+        if mode == 'submit':
+            ts = [t for t in tgt.iter(q('t')) if t.text]
+            j = ''.join(t.text for t in ts).replace(e['old'], e['new'])
+            for t in ts[1:]: t.text = ''
+            ts[0].text = j; ts[0].set('{%s}space' % XML, 'preserve')
+        else:
+            fu_ed['KME2'].replace(tgt, e['old'], e['new'])
+        k2_done += 1
+    print(f"     her second pass (10 Nov), applied: {k2_done} of "
+          f"{len(kme2_edits.EDITS)}"
+          + (f"  NOT APPLIED: {k2_miss}" if k2_miss else ''))
+    assert not k2_miss, f'round-2 edits did not anchor: {k2_miss}'
 
     print(f"     Kimberly Edwards's review: {kme_done} of {len(kme_edits.PARAS)} paragraphs"
           + (f', {kme_hunks} tracked hunks'
@@ -923,7 +987,7 @@ def build(mode):
             e3.set('{%s}durableId' % W16CEX, did)
             e3.set('{%s}dateUtc' % W16CEX, REC_DATE)
         applied = []
-        for key, old, new, why in RECOMMENDATIONS:
+        for key, old, new, why in ([] if DROP_RECOMMENDATIONS else RECOMMENDATIONS):
             target = None
             for p in P():
                 if old in ptext(p):
@@ -963,6 +1027,24 @@ def build(mode):
           'study. Pick the one the sentence means. Second, she wrote "peaks" where the rest of '
           'the manuscript says pathogen-seasons, and one word should govern throughout.'),
         ]
+        if DROP_RECOMMENDATIONS:
+            # The title and Author Summary recommendations become questions to him:
+            # a comment carrying the proposed wording, no tracked change. R3 is
+            # already asked in the [VD-5] bracket, so it needs no comment here.
+            _r = {k.split()[0]: (o, n, w) for k, o, n, w in RECOMMENDATIONS}
+            QUESTIONS = QUESTIONS + [
+             (_r['R1'][0],
+              '[VD-6 title: a question, not an edit] Proposed wording, not applied: “'
+              + _r['R1'][1] + '”. ' + _r['R1'][2]),
+             (_r['R2a'][0],
+              '[VD-7 Author Summary: a question, not an edit] PLOS requires the Author '
+              'Summary in the first person; this one is third person throughout. Three '
+              'changes would convert it, none touching a number, and none is applied: '
+              '(a) “' + _r['R2a'][0] + '” → “' + _r['R2a'][1] + '”; '
+              '(b) “' + _r['R2b'][0] + '” → “' + _r['R2b'][1] + '”; '
+              '(c) “' + _r['R2c'][0] + '” → “' + _r['R2c'][1] + '”. '
+              'The dropped “though” in (c) is style rather than voice. Say which to take.'),
+            ]
         for anchor, why in QUESTIONS:
             tgt = next((p for p in P() if anchor in ptext(p)), None)
             if tgt is None:
@@ -977,7 +1059,7 @@ def build(mode):
             ct = etree.SubElement(cr, q('t')); ct.text = why
             ct.set('{%s}space' % XML, 'preserve')
             register(c)
-            applied.append('Q1 season count')
+            applied.append(why.split(']')[0].lstrip('[')[:28])
         # Notes on the two changes made from VD's own supplied text. These are
         # applied rather than proposed, so each carries a comment authored
         # "Thomas Yuan" and no recommendation authorship, and the comment says
@@ -1019,6 +1101,46 @@ def build(mode):
             ct.set('{%s}space' % XML, 'preserve')
             register(c)
             kme_c += 1
+        # her 15 comments of 10 November, same machinery, her own name and that date
+        k2_c = k2_miss_c = 0
+        k2_dropped = []
+        for ctx_, an_, txt_ in kme2_edits.COMMENTS:
+            live = [p for p in root.iter(q('p'))
+                    if p.find('w:pPr/w:rPr/w:del', NS) is None]
+            pool = [p for p in live if ctx_ and ctx_ in re.sub(r'\s+', ' ', ptext(p))]
+            if not pool and ctx_:
+                pool = [p for p in live if ctx_[:40] in re.sub(r'\s+', ' ', ptext(p))]
+            if not pool and an_ and len(an_) > 12:
+                pool = [p for p in live if an_ in re.sub(r'\s+', ' ', ptext(p))]
+            tgt = pool[0] if pool else None
+            if tgt is None:
+                k2_miss_c += 1; k2_dropped.append(txt_); continue
+            pick = None
+            vis = red.vis_text(tgt)
+            for cand in (an_, re.sub(r'\s+', ' ', ptext(tgt)).strip()[:45],
+                         re.sub(r'\s+', ' ', ptext(tgt)).strip()[:30]):
+                if cand and vis.count(cand) == 1: pick = cand; break
+            if pick is None:
+                k2_miss_c += 1; k2_dropped.append(txt_); continue
+            try:
+                f5, l5 = red.span(tgt, pick)
+            except Exception:
+                k2_miss_c += 1; k2_dropped.append(txt_); continue
+            cid += 1
+            red.add_comment_marks(tgt, f5, l5, cid)
+            c = etree.SubElement(croot, q('comment'))
+            c.set(q('id'), str(cid)); c.set(q('author'), 'Kimberly Edwards')
+            c.set(q('date'), '2026-11-10T15:00:00Z'); c.set(q('initials'), 'KME')
+            cp = etree.SubElement(c, q('p')); cr = etree.SubElement(cp, q('r'))
+            ct = etree.SubElement(cr, q('t')); ct.text = txt_
+            ct.set('{%s}space' % XML, 'preserve')
+            register(c)
+            k2_c += 1
+        print(f'     her 10 November comments carried: {k2_c} of '
+              f'{len(kme2_edits.COMMENTS)}'
+              + (f', {k2_miss_c} could not be anchored' if k2_miss_c else ''))
+        for txt_ in k2_dropped:
+            print(f'     NOT CARRIED, anchor gone: {txt_[:90]!r}')
         print(f'     her comments carried: {kme_c} of {len(kme_edits.COMMENTS)}'
               + (f', {kme_miss_c} could not be anchored' if kme_miss_c else ''))
         for ctx_, an_, txt_ in kme_dropped:
@@ -1181,7 +1303,10 @@ for mode in ('edit', 'submit'):
           f"{allt.count('no ethics approval')} times")
     check('susceptible-exposed-infectious-recovered (SEIR)' in allt, 'SEIR expanded at first use')
     check('is pending' not in allt, 'no pending-verification statement left')
-    check('rsv_source_verification' in allt, 'the verification record is named in Methods')
+    check('the verification record, with the source page for each week, is committed'
+          in allt, 'the RSV verification record is still stated in Methods')
+    check('2015-W21, 2015-W35, 2019-W44, 2019-W52, 2022-W18' in allt,
+          'the five manually validated weeks survive her deletion')
     for ab in ('IQR:', 'GPU', 'COVID NPIs'):
         check(ab not in allt, f'single-use abbreviation {ab!r} spelled out')
     # 'GP ILI' is now permitted only where the legend defines it on the spot
@@ -1232,6 +1357,36 @@ for mode in ('edit', 'submit'):
     check(len(brackets) == want, f'{want} input brackets present',
           ', '.join(f'{a}' for a, b in brackets))
     print('     input brackets: ' + '; '.join(f'[{a}] {b.strip()}' for a, b in brackets))
+    # Her second pass sat on the 6 November text, so adopting it wholesale would have
+    # reverted the follow-ups. Every follow-up's result must still be present and none of
+    # the wording it replaced may have come back.
+    fu_back = [e['id'] for e in followup_edits.EDITS if e['new'] not in allt]
+    check(not fu_back, 'every 7 November follow-up edit survives her second pass',
+          ', '.join(fu_back))
+    fu_undone = [e['id'] for e in followup_edits.EDITS
+                 if e['old'] in allt and e['old'] not in e['new']]
+    check(not fu_undone, 'no wording a follow-up replaced has returned',
+          ', '.join(fu_undone))
+    k2_back = [e['id'] for e in kme2_edits.EDITS if e['new'] not in allt]
+    check(not k2_back, 'every applied second-pass edit is in the text', ', '.join(k2_back))
+    # Nothing of hers may supersede what he wrote.
+    VD_WORDS = [
+        'Low-amplitude laboratory signals degraded both estimators in the same direction.',
+        'R(t)-based onset detection was benchmarked against operational thresholds for two '
+        'pathogens.',
+        'EpiEstim led the influenza threshold by a median of 35 days but lagged for RSV.',
+        'SEIR-PINN onset detection was governed by the clamped recovery rate, not by model '
+        'skill.',
+        'Age-stratified admissions led positivity exactly on the hardest, low-amplitude '
+        'seasons.',
+    ]
+    if mode == 'edit':
+        vd_lost = [w for w in VD_WORDS if w not in allt]
+        check(not vd_lost, "Vijay's inserted Highlights lines are untouched",
+              f'{len(VD_WORDS) - len(vd_lost)} of {len(VD_WORDS)} present')
+    check('with no individual-level information' in allt,
+          "his ethics wording stands, her rewrite of it held")
+
     REVTAGS = ('ins','del','moveTo','moveFrom','moveFromRangeStart','moveFromRangeEnd',
                'moveToRangeStart','moveToRangeEnd','pPrChange','rPrChange','sectPrChange',
                'tblPrChange','tcPrChange','trPrChange','cellIns','cellDel','cellMerge')
@@ -1261,8 +1416,12 @@ for mode in ('edit', 'submit'):
         recs = [e for e in marks if e.get(q('author')) == REC_AUTHOR]
         check(len(reloc) > 0, 'the Methods relocation is present and separable',
               f'{len(reloc)} marks')
-        check(len(recs) > 0, 'recommendations are present as a filterable author',
-              f'{len(recs)} marks')
+        if DROP_RECOMMENDATIONS:
+            check(len(recs) == 0, 'no recommendation is applied as a tracked change (raised as [VD-5]/[VD-6]/[VD-7] instead)',
+                  f'{len(recs)} marks')
+        else:
+            check(len(recs) > 0, 'recommendations are present as a filterable author',
+                  f'{len(recs)} marks')
         cs = [e.get(q('id')) for e in root.iter(q('commentRangeStart'))]
         cr_ = [e.get(q('id')) for e in root.iter(q('commentReference'))]
         cx = [c.get(q('id')) for c in etree.parse(
@@ -1270,8 +1429,9 @@ for mode in ('edit', 'submit'):
         check(sorted(cs) == sorted(cr_) == sorted(cx),
               'comment ranges, references and comments.xml agree',
               f'{len(cs)}/{len(cr_)}/{len(cx)}')
-        check(len(cs) == 26 + 8 + 33,
-              'the 26 inherited comments, 8 of mine and all 33 of hers', str(len(cs)))
+        check(len(cs) == 26 + (5 if DROP_RECOMMENDATIONS else 8) + 33 + 15,
+              'the 26 inherited, 8 of mine, her 33 of 6 Nov and her 15 of 10 Nov',
+              str(len(cs)))
         kmes = [e for e in marks if e.get(q('author')) == 'Kimberly Edwards']
         check(len(kmes) > 0, 'her edits are a separately filterable author',
               f'{len(kmes)} marks')
